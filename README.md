@@ -24,6 +24,14 @@ More over, using **Import tables** feature from any supported database is provid
 
 Hope this sparked some interest! Thank you.
 
+
+## Installation and Launch
+```
+pip install jam.py-v7
+jam-project.py
+```
+
+
 [![alt text](https://github.com/jam-py-v5/jam-py/blob/develop/assets/images/JAMPY_Readme.gif?raw=true)](https://northwind.pythonanywhere.com)
 
 
@@ -33,7 +41,7 @@ Some short videos about how to setup Jam.py and create applications:
 * [Setting up interface of Jam.py application using Forms Dialogs](https://youtu.be/hvNZ0-a_HHw)
 
 
-Longer
+Longer video:
 [video](https://youtu.be/qkJvGlgoabU)  with dashboards and complex internal logic.
 
 Live demos on PythonAnywhere:
