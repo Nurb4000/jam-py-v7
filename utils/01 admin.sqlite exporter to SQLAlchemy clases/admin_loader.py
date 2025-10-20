@@ -1,3 +1,13 @@
+
+# exporter/admin_loader.py
+# Pokreni ovu skriptu da proveriš ORM povezivanje nad 'admin.sqlite' bazom.
+
+# Instaliraj SQLALchemy ako već nije instaliran:
+#
+# pip install sqlalchemy
+#
+
+
 from sqlalchemy import create_engine, inspect, select
 from sqlalchemy.orm import Session
 from models import Base
