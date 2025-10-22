@@ -29,6 +29,7 @@ Hope this sparked some interest! Thank you.
 ```
 pip install jam.py-v7
 jam-project.py
+server.py
 ```
 
 
