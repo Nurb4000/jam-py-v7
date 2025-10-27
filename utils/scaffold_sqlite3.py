@@ -155,6 +155,17 @@ def get_table_info(db_file, table_name):
         'fields': fields,
         'has_id': has_id_column
     }
+def get_foreign_keys(db_file, table_name):
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+    cursor.execute(f"PRAGMA foreign_key_list({table_name})")
+    fks = cursor.fetchall()
+    conn.close()
+    # Return a list of dicts for clarity
+    return [
+        {"from": fk[3], "to_table": fk[2], "to_column": fk[4]}
+        for fk in fks
+    ]
 
 
 
@@ -362,6 +373,9 @@ def my_database_procedure(db_info):
             col_name = col['col_name']
             col_type = col['col_type']
             pk = col['pk']
+            
+            foreign_keys = get_foreign_keys(db_path, table_name)
+            fk_map = {fk['from']: fk for fk in foreign_keys}
 
             f_field_name = sanitize_field_name(to_camel_case(col_name))
             f_name = to_caption(col_name)
