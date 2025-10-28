@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import sqlite3
 import re
 import json
@@ -374,8 +376,6 @@ def my_database_procedure(db_info):
             col_type = col['col_type']
             pk = col['pk']
             
-            foreign_keys = get_foreign_keys(db_path, table_name)
-            fk_map = {fk['from']: fk for fk in foreign_keys}
 
             f_field_name = sanitize_field_name(to_camel_case(col_name))
             f_name = to_caption(col_name)
@@ -394,6 +394,29 @@ def my_database_procedure(db_info):
                 f_field_name, col_name, f_name, f_data_type, f_size, F_REQUIRED,
                 f_alignment, F_TEXTAREA, F_DO_NOT_SANITIZE, F_CALC_LOOKUP_FIELD
             ))
+
+            foreign_keys = get_foreign_keys(db_file, table_name)
+            fk_map = {fk['from']: fk for fk in foreign_keys}
+            fk = fk_map.get(col['col_name'])
+            f_lookup_item = None
+            f_lookup_key = None
+            f_lookup_result = None            
+
+            if fk:
+                ref_table = fk['to_table']
+                ref_item_id = table_to_item_id.get(ref_table)
+                if ref_item_id:
+                    f_lookup_item = ref_item_id
+                    f_lookup_key = fk['to_column']
+                    # Try to guess display column: prefer 'name', else first text field
+                    ref_info = get_table_info(db_file, ref_table)
+                    for ref_col in ref_info['fields']:
+                        if ref_col['col_name'].lower() in ('name', 'title', 'description'):
+                            f_lookup_result = ref_col['col_name']
+                            break
+                    if not f_lookup_result:
+                        f_lookup_result = ref_info['fields'][0]['col_name']
+                    print(f"🔗 Lookup detected: {table_name}.{col['col_name']} → {ref_table}.{f_lookup_key} (display {f_lookup_result})")
 
             if pk and not pk_detected:
                 item_id_to_pk_field_id[table_item_id] = field_id
@@ -419,6 +442,77 @@ def my_database_procedure(db_info):
     for item_id, pk_field_id in item_id_to_pk_field_id.items():
         cursor.execute("UPDATE SYS_ITEMS SET f_primary_key = ? WHERE id = ?", (pk_field_id, item_id))
         print(f"[SYS_ITEMS] Updated item_id={item_id} with f_primary_key={pk_field_id}")
+
+# === STEP 6: Update SYS_FIELDS.F_MASTER_FIELD based on foreign keys ===
+
+#    def get_foreign_keys(db_file, table_name):
+#        cur = conn.cursor()
+#        cur.execute(f"PRAGMA foreign_key_list('{table_name}')")
+#        print([
+#            {"from": r[3], "to_table": r[2], "to_column": r[4]}
+#            for r in cur.fetchall()
+#        ])
+#
+#        return [
+#            {"from": r[3], "to_table": r[2], "to_column": r[4]}
+#            for r in cur.fetchall()
+#        ]
+
+    print("\n=== STEP 6: Linking fields via F_OBJECT and F_OBJECT_FIELD (foreign keys) ===")
+
+#    def get_foreign_keys(db_file, table_name):
+#        cur = conn.cursor()
+#        cur.execute(f"PRAGMA foreign_key_list('{table_name}')")
+#        return [{"from": r[3], "to_table": r[2], "to_column": r[4]} for r in cur.fetchall()]
+#
+    for table_name, item_id in table_to_item_id.items():
+        fks = get_foreign_keys(db_file, table_name)
+        if not fks:
+            continue
+
+        print(f"→ Table {table_name} has {len(fks)} foreign keys")
+
+        # Cache all fields for this table (lowercase names)
+        cursor.execute("SELECT id, lower(f_db_field_name) FROM SYS_FIELDS WHERE owner_rec_id = ?", (item_id,))
+        src_fields = {name: fid for fid, name in cursor.fetchall()}
+
+        for fk in fks:
+            from_field = fk["from"].lower()
+            ref_table = fk["to_table"].lower()
+            ref_column = fk["to_column"].lower()
+
+            src_id = src_fields.get(from_field)
+            ref_item_id = None
+            ref_field_id = None
+
+            # Find referenced SYS_ITEMS.id
+            for tname, iid in table_to_item_id.items():
+                if tname.lower() == ref_table:
+                    ref_item_id = iid
+                    break
+
+            # Find referenced SYS_FIELDS.id
+            if ref_item_id:
+                cursor.execute(
+                    "SELECT id FROM SYS_FIELDS WHERE owner_rec_id = ? AND lower(f_db_field_name) = ?",
+                    (ref_item_id, ref_column)
+                )
+                row = cursor.fetchone()
+                if row:
+                    ref_field_id = row[0]
+
+            if src_id and ref_item_id and ref_field_id:
+                cursor.execute(
+                    "UPDATE SYS_FIELDS SET F_OBJECT = ?, F_OBJECT_FIELD = ? WHERE id = ?",
+                    (ref_item_id, ref_field_id, src_id)
+                )
+                print(f"   ✅ {table_name}.{fk['from']} → {fk['to_table']}.{fk['to_column']} | F_OBJECT={ref_item_id}, F_OBJECT_FIELD={ref_field_id}")
+            else:
+                print(f"   ⚠️ Skipped {table_name}.{fk['from']} → {fk['to_table']}.{fk['to_column']} (missing mapping)")
+
+    conn.commit()
+    print("✅ Step 6 complete — F_OBJECT and F_OBJECT_FIELD relationships set.")
+
 
     # === Finalize ===
     conn.commit()
