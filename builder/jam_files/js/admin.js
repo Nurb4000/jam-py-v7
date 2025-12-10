@@ -4160,14 +4160,19 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 		}
 		result = task.task.server('server_save_edit', [info.rec_id, text, info.ext === 'py']);
 	
-		if (result.error && result.line && result.line < task.editor.session.getLength()) {
-			task.editor.gotoLine(result.line);
+		if (result.error && result.line) {
+			const lineCount = task.editor.getModel().getLineCount();
+			if (result.line <= lineCount) {
+				task.editor.revealLineInCenter(result.line);
+				task.editor.setPosition({ lineNumber: result.line, column: 1 });
+			}
 		}
+	
 		if (!result.error) {
 			info.module = result.module_info;
 			add_tree(task, info.module, "module");
 			update_tab_height(task);
-		}
+		} 
 		return result.error;
 	}
 	
