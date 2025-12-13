@@ -184,10 +184,9 @@ class App(object):
                 self.state = consts.RESPONSE
                 result.__task_locked = True
             except ProjectNotCompleted:
-                self.__loading = False
-                raise ProjectNotCompleted
+                raise
             except:
-#                traceback.print_exc()
+                traceback.print_exc()
                 raise ProjectError()
             finally:
                 self.__loading = False
