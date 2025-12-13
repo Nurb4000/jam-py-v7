@@ -184,9 +184,10 @@ class App(object):
                 self.state = consts.RESPONSE
                 result.__task_locked = True
             except ProjectNotCompleted:
-                raise
+                self.__loading = False
+                raise ProjectNotCompleted
             except:
-                traceback.print_exc()
+#                traceback.print_exc()
                 raise ProjectError()
             finally:
                 self.__loading = False
@@ -265,7 +266,7 @@ class App(object):
                     print(request.path)
                     raise NotFound()
         except ProjectNotCompleted as e:
-            self.log.exception(error_message(e))
+            self.log.info(error_message(e))
             return self.show_information(consts.lang['no_project'])(environ, start_response)
         except ProjectError as e:
             self.log.exception(error_message(e))
