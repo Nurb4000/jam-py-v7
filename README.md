@@ -3,7 +3,7 @@
 
 
 ## Jam.py is a web front-end application generator that works with both existing databases and newly created ones. 
-## With Monaco editor!
+## With Monaco editor and Databricks support!
 
 ## This is forked jam.py to continue the support and development, since Andrew retired from jam.py project. The v7 is now fully released. Please find v5 master branch archive in here: https://github.com/jam-py-v5/jam-py/ 
 
