@@ -147,6 +147,21 @@ class AbstractDB(object):
         if not field.master_field and not field.calculated:
             return True
 
+    def normalize_table_name(self, table_name):
+        db_name = self.app.admin.task_db_info.database
+        parts = db_name.split('.')
+
+        table = table_name.lower()
+
+        if len(parts) == 2:
+            catalog, schema = parts[0].lower(), parts[1].lower()
+            return f"`{catalog}`.`{schema}`.`{table}`"
+        elif len(parts) == 1:
+            schema = parts[0].lower()
+            return f"`{schema}`.`{table}`"
+        else:
+            return f"`{table}`"
+
     def insert_record(self, delta, cursor):
         if delta._deleted_flag:
             delta._deleted_flag_field.data = 0
@@ -159,7 +174,10 @@ class AbstractDB(object):
         for field in delta.fields:
             if self.db_field(field) and not (field == pk and not pk.data):
                 index += 1
-                fields.append('"%s"' % field.db_field_name)
+                if self.db_type == consts.DATABRICKS:
+                    fields.append(f'`{field.db_field_name.lower()}`')
+                else:
+                    fields.append('"%s"' % field.db_field_name)
                 values.append('%s' % self.value_literal(index))
                 if field.data is None and not field.default_value is None:
                     field.data = field.get_default_value()
@@ -167,6 +185,9 @@ class AbstractDB(object):
                 row.append(value)
         fields = ', '.join(fields)
         values = ', '.join(values)
+        if self.db_type == consts.DATABRICKS:
+            delta.table_name = self.normalize_table_name(delta.table_name)
+
         sql = self.insert_query(pk) % (delta.table_name, fields, values)
         row = self.process_query_params(row, cursor)
         delta.execute_query(cursor, sql, row, arg_params=self.arg_params)
