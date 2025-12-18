@@ -40,7 +40,6 @@ class DatabricksDB(AbstractDB):
         return params
 
     def connect(self, db_info):
-        # store for later use in SQL builders
         DatabricksDB.database = db_info.database  # THIS MUST HAPPEN
 
         conn = sql.connect(
@@ -101,10 +100,6 @@ class DatabricksDB(AbstractDB):
 
         return sql
 
-
-
-
-
     def value_literal(self, index):
         return '?'
 
@@ -113,64 +108,65 @@ class DatabricksDB(AbstractDB):
 
 
     def create_table(self, table_name, fields, gen_name=None, foreign_fields=None):
-        sql = ''
-        primary_key = ''
-        seq_name = gen_name
-        sql = 'CREATE TABLE "%s"\n(\n' % table_name
+        # Resolve catalog + schema
+        db_name = self.app.admin.task_db_info.database
+        catalog, schema = self.parse_database(db_name)
+        table_sql = f'`{catalog}`.`{schema}`.`{table_name.lower()}`'
         lines = []
         for field in fields:
+            field_name = field.field_name.lower()
+            field_type = self.FIELD_TYPES[field.data_type]
+            line = f'`{field_name}` {field_type}'
             default_text = self.default_text(field)
-            if field.primary_key:
-                field_type = 'SERIAL PRIMARY KEY'
-            else:
-                field_type = self.FIELD_TYPES[field.data_type]
-            line = '"%s" %s' % (field.field_name, field_type)
-            if not default_text is None:
-                line += ' DEFAULT %s' % default_text
+            if default_text is not None:
+                line += f' DEFAULT {default_text}'
+            # Databricks does NOT enforce PKs – skip inline PRIMARY KEY
+            # (Jam metadata still knows which field is PK)
             lines.append(line)
-        sql += ',\n'.join(lines)
-        sql += ')\n'
+        sql = (
+            f'CREATE TABLE {table_sql}\n'
+            '(\n  ' + ',\n  '.join(lines) + '\n)'
+        )
         return sql
+
 
     def drop_table(self, table_name, gen_name):
         result = []
-        result.append('DROP TABLE "%s"' % table_name)
-        if gen_name:
-            result.append('DROP SEQUENCE IF EXISTS "%s"' % gen_name)
+        db_name = self.app.admin.task_db_info.database
+        catalog, schema = self.parse_database(db_name)
+        table_sql = f'`{catalog}`.`{schema}`.`{table_name.lower()}`'
+        result.append(f'DROP TABLE IF EXISTS {table_sql}')
         return result
+
 
     def add_field(self, table_name, field):
         default_text = self.default_text(field)
-        line = 'ALTER TABLE "%s" ADD COLUMN "%s" %s' % \
-            (table_name, field.field_name, self.FIELD_TYPES[field.data_type])
-        if not default_text is None:
-            line += ' DEFAULT %s' % default_text
-        return line
+        field_name = field.field_name.lower()
+        table_sql = self.normalize_table_name(table_name)
+        sql = f'ALTER TABLE {table_sql} ADD COLUMN `{field_name}` {self.FIELD_TYPES[field.data_type]}'
+        if default_text is not None:
+            sql += f' DEFAULT {default_text}'
+        return sql
+
+
 
     def del_field(self, table_name, field):
-        return 'ALTER TABLE "%s" DROP COLUMN "%s"' % (table_name, field.field_name)
+        table_sql = self.normalize_table_name(table_name)
+        return (
+            f'ALTER TABLE {table_sql} '
+            f'DROP COLUMN `{field.field_name.lower()}`'
+        )
+
 
     def change_field(self, table_name, old_field, new_field):
         result = []
-        default_text = self.default_text(new_field)
-        field_info = self.get_field_info(old_field.field_name, table_name)
+        table_sql = self.normalize_table_name(table_name)
         if old_field.field_name != new_field.field_name:
-            result.append('ALTER TABLE "%s" RENAME COLUMN  "%s" TO "%s"' % \
-                (table_name, old_field.field_name, new_field.field_name))
-        if old_field.size != new_field.size:
-            if field_info['data_type'].upper() in ['CHARACTER VARYING', 'VARCHAR', 'CHARACTER', 'CHAR'] and \
-                field_info['size'] < new_field.size:
-                line = 'ALTER TABLE "%s" ALTER COLUMN "%s" TYPE %s(%d) ' % \
-                    (table_name, new_field.field_name, field_info['data_type'], new_field.size)
-                result.append(line)
-        if old_field.default_value != new_field.default_value:
-            if not default_text is None:
-                line = 'ALTER TABLE "%s" ALTER "%s" SET DEFAULT %s' % \
-                    (table_name, new_field.field_name, default_text)
-            else:
-                line = 'ALTER TABLE "%s" ALTER "%s" DROP DEFAULT' % \
-                    (table_name, new_field.field_name)
-            result.append(line)
+            result.append(
+                f'ALTER TABLE {table_sql} '
+                f'RENAME COLUMN `{old_field.field_name.lower()}` '
+                f'TO `{new_field.field_name.lower()}`'
+            )
         return result
 
     def create_index(self, index_name, table_name, unique, fields, desc):
@@ -188,8 +184,6 @@ class DatabricksDB(AbstractDB):
 
     def insert_query(self, pk_field):
         return 'INSERT INTO %s (%s) VALUES (%s)'
-
-
 
     def before_insert(self, cursor, pk_field):
         """
@@ -212,19 +206,9 @@ class DatabricksDB(AbstractDB):
         # Fully qualified table name
         table_sql = f'`{catalog}`.`{schema}`.`{table_name.lower()}`'
 
-        # Debug logging
-        import logging
-        logging.getLogger().info("Next PK for table: %s, field: %s", table_sql, pk_field.db_field_name)
-        import os
-        print(f"Table SQL: {table_sql}", file=sys.stderr)
-
-
         # Get next PK value
         cursor.execute(f'SELECT COALESCE(MAX(`{pk_field.db_field_name.lower()}`), 0) + 1 FROM {table_sql}')
         pk_field.data = cursor.fetchone()[0]
-
-
-
 
     def after_insert(self, cursor, pk_field):
         if pk_field and not pk_field.owner.gen_name and not pk_field.data:
@@ -257,15 +241,7 @@ class DatabricksDB(AbstractDB):
         result = cursor.fetchall()
         return [r[0] for r in result]
 
-#    def parse_database(self, db_name):
-#        parts = db_name.split('.')
-#        if len(parts) == 2:
-#            return parts[0], parts[1]     # catalog, schema
-#        elif len(parts) == 1:
-#            return None, parts[0]         # schema only
-#        else:
-#            raise ValueError("Invalid database format")
-#
+
     def parse_database(self, db_name):
         """
         Accepts:
