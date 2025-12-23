@@ -9,7 +9,7 @@ class MSSqlDB2(MSSqlDB):
     #DRIVER={ODBC Driver 17 for SQL Server};SERVER=ANDREW-PC\SQLEXPRESS;DATABASE=demo;UID=sa;PWD=1111
     #DSN=SQL Server;DATABASE=demo;UID=sa;PWD=1111
     def connect(self, db_info):
-        return pyodbc.connect(db_info.dns)
+        return pyodbc.connect(db_info.dsn)
 
     def get_lastrowid(self, cursor):
         cursor.execute('SELECT @@IDENTITY')
