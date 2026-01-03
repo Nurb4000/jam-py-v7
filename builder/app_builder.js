@@ -1,7 +1,7 @@
 (function($, task) {
 "use strict";
 
-function Events1() { // app_builder 
+function Events0() { // app_builder 
 
 	var item_types = {
 		"ROOT_TYPE": 1,
@@ -852,7 +852,7 @@ function Events1() { // app_builder
 	this.on_edit_form_keydown = on_edit_form_keydown;
 }
 
-task.events.events1 = new Events1();
+task.events.events0 = new Events0();
 
 function Events2() { // sys_roles 
 
@@ -3401,7 +3401,7 @@ function Events9() { // app_builder.catalogs.sys_langs
 
 task.events.events9 = new Events9();
 
-function Events10() { // app_builder.catalogs.sys_tasks 
+function Events00() { // app_builder.catalogs.sys_tasks 
 
 	function on_after_edit(item) {
 		item.f_manual_update.value = item.task._manual_update;
@@ -3558,9 +3558,9 @@ function Events10() { // app_builder.catalogs.sys_tasks
 	this.on_field_validate = on_field_validate;
 }
 
-task.events.events10 = new Events10();
+task.events.events10 = new Events00();
 
-function Events11() { // app_builder.catalogs.sys_lookup_lists 
+function Events01() { // app_builder.catalogs.sys_lookup_lists 
 
 	function init_view_table(item, options) {
 		item.view_options.width = 440;
@@ -3652,9 +3652,9 @@ function Events11() { // app_builder.catalogs.sys_lookup_lists
 	this.on_before_post = on_before_post;
 }
 
-task.events.events11 = new Events11();
+task.events.events11 = new Events01();
 
-function Events14() { // app_builder.catalogs.sys_code_editor 
+function Events04() { // app_builder.catalogs.sys_code_editor 
 
 	function init_tabs(task) {
 		$("#content").show();
@@ -4006,9 +4006,9 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 			}
 		}
 	
-		if (task.editor === undefined) {
-			init_editor(task); // must call monaco.editor.create(...)
-		}
+		//if (task.editor === undefined) {
+		//	init_editor(task); // must call monaco.editor.create(...)
+		//}
 	
 		if (!info.model) {
 			// Pick language based on extension
@@ -4551,9 +4551,9 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 	this.monaco_shortcuts = monaco_shortcuts;
 }
 
-task.events.events14 = new Events14();
+task.events.events14 = new Events04();
 
-function Events15() { // app_builder.catalogs.sys_fields_editor 
+function Events05() { // app_builder.catalogs.sys_fields_editor 
 
 	var FORM_TEMPLATES = 0,
 		FORM_OPTIONS = 1,
@@ -5507,9 +5507,9 @@ function Events15() { // app_builder.catalogs.sys_fields_editor
 	this.item_cancel = item_cancel;
 }
 
-task.events.events15 = new Events15();
+task.events.events15 = new Events05();
 
-function Events16() { // app_builder.catalogs.sys_search 
+function Events06() { // app_builder.catalogs.sys_search 
 
 	function find_in_task(task) {
 		var search = task.sys_search.copy();
@@ -5576,9 +5576,9 @@ function Events16() { // app_builder.catalogs.sys_search
 	this.on_edit_form_keydown = on_edit_form_keydown;
 }
 
-task.events.events16 = new Events16();
+task.events.events16 = new Events06();
 
-function Events18() { // app_builder.catalogs.sys_languages 
+function Events08() { // app_builder.catalogs.sys_languages 
 
 	function on_view_form_created(item) {
 		item.view_options.width = 400;
@@ -5590,9 +5590,9 @@ function Events18() { // app_builder.catalogs.sys_languages
 	this.on_view_form_created = on_view_form_created;
 }
 
-task.events.events18 = new Events18();
+task.events.events18 = new Events08();
 
-function Events19() { // app_builder.catalogs.sys_countries 
+function Events09() { // app_builder.catalogs.sys_countries 
 
 	function on_view_form_created(item) {
 		item.view_options.width = 400;
@@ -5603,7 +5603,7 @@ function Events19() { // app_builder.catalogs.sys_countries
 	this.on_view_form_created = on_view_form_created;
 }
 
-task.events.events19 = new Events19();
+task.events.events19 = new Events09();
 
 function Events21() { // app_builder.details.sys_report_params 
 

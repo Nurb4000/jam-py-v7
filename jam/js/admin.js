@@ -3656,9 +3656,6 @@ task.events.events11 = new Events01();
 
 function Events04() { // app_builder.catalogs.sys_code_editor 
 
-	// var EditSession = require('ace/edit_session').EditSession;
-	// var UndoManager = require("ace/undomanager").UndoManager;
-	
 	function init_tabs(task) {
 		$("#content").show();
 		task.tabs = {};
@@ -3790,6 +3787,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 			}
 		}, true); // <-- capture = true
 	}
+	
 	window.addEventListener('keydown', function(e) {
 		if (e.ctrlKey && e.altKey && e.shiftKey && e.code === 'KeyW') {
 			e.preventDefault();
@@ -3887,6 +3885,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 	}
 	
 	function close_query(task, tag, callback) {
+		//console.log(get_modified(task));
 		if (get_modified(task)) {
 			task.yes_no_cancel(task.language.save_changes,
 				function() {
@@ -3903,7 +3902,6 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 			callback();
 		}
 	}
-	
 	
 	function getAceTheme(value) {
 		const themeMap = {
@@ -3937,12 +3935,8 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 		} else {
 			do_init_editor(task);
 		}
-		// task.editor = ace.edit("editor");
-		// task.editor.on('input', function() {
-		//	 $("#code-editor #error-info").text('');
-		//	 update_buttons(task);
-		// });
-		task.editor.onDidChangeModelContent(function () {
+		
+		task.editor.onDidChangeModelContent(function (event) {
 			$("#code-editor #error-info").text('');
 			update_buttons(task);
 		});
@@ -3950,21 +3944,25 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 		task.code_editor.find('#ok-btn').click(function() {
 			save_edit(task, $('ul#task-tabs li button.active').attr('id'));
 		});
+	
 		task.code_editor.find('#find-btn')
 			.text(task.code_editor.find('#find-btn').text().replace('find_in_task', task.language.find_in_task))
 			.click(function() {
 				task.sys_search.find_in_task(task);
 			}
 		);
+	
 		task.code_editor.find('#monaco-btn')
 			.text(task.code_editor.find('#monaco-btn').text().replace('monaco_shortcuts', task.language.ace_shortcuts))
 			.click(function() {
 				monaco_shortcuts(task);
 			}
 		);
+	
 		task.code_editor.on('click', '#editor-tabs > .nav > li button', function() {
 			info_tab_clicked(task, $(this));
 		});
+	
 		task.code_editor.on('dblclick', '.dbtree ul li', function(e) {
 			e.preventDefault();
 			e.stopPropagation();
@@ -3983,7 +3981,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 	
 		$(window).on('keyup.editor', function(e) {
 			if (e.which === 27) {
-				return;
+				//return;
 				var tag = $('ul#task-tabs li button.active').attr('id');
 				if (tag && tag !== 'admin') {
 					e.preventDefault();
@@ -3991,9 +3989,11 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 					e.stopImmediatePropagation();
 					close_editor(task, tag);
 				}
+				return;
 			}
 		});
 	}
+	
 	function select_editor(task, tag) {
 		var info = task.tabs[tag],
 			model;
@@ -4028,6 +4028,8 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 		} else {
 			model = info.model;
 		}
+	
+		task.initialVersionId = task.editor.getModel().getAlternativeVersionId();
 	
 		// Attach model
 		task.editor.setModel(model);
@@ -4070,7 +4072,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 		}
 	}
 	
-	function update_buttons(task, info) {
+	function update_buttons(task) {
 		task.code_editor.find('#ok-btn').prop("disabled", !get_modified(task));
 	}
 	
@@ -4085,45 +4087,41 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 	// function mark_clean(task) {
 	//	 task.editor.session.getUndoManager().markClean();
 	// }
+	
 	function get_modified(task) {
-		var editor = task.editor;
-		var model = editor && editor.getModel();
-		if (!model) return false;
-	
-		var info = null;
-		if (task.tabs) {
-			for (var tag in task.tabs) {
-				if (task.tabs.hasOwnProperty(tag) && task.tabs[tag].model === model) {
-					info = task.tabs[tag];
-					break;
+		var editor = task.editor,
+			model = editor && editor.getModel();
+		
+		//console.log('Base: ' + task.initialVersionId + ' and current: ' + editor.getModel().getAlternativeVersionId());
+		if (model) {
+			model.onDidChangeContent(function (event){
+				if (task.editor.getModel().getAlternativeVersionId() === task.initialVersionId) {
+					task.code_editor.find('#ok-btn').prop("disabled", true);
+				}   else {
+					task.code_editor.find('#ok-btn').prop("disabled", false);
 				}
+			});
+	
+			if (task.editor.getModel().getAlternativeVersionId() === task.initialVersionId) {
+				return false;
+			}   else {
+				return true;
 			}
+		}   else {
+			return false;
 		}
-	
-		var cleanValue = info ? info._cleanValue : task._cleanValue;
-	
-		// If we never marked clean yet, consider it modified iff non-empty
-		if (cleanValue === undefined) return model.getValue().length > 0;
-	
-		return model.getValue() !== cleanValue;
 	}
 	
-	// function mark_clean(task) {
-		// task.editor.session.getUndoManager().markClean();
-	// }
-	// function mark_clean(task) {
-	//	 if (task.editor && task.editor.getModel()) {
-	//		 task.editor.getModel().pushStackElement();
-	//	 }
-	// }
-	
 	function mark_clean(task) {
-		var editor = task.editor;
-		var model = editor && editor.getModel();
-		if (!model) return;
+		var editor = task.editor,
+		model = editor && editor.getModel();
+		
+		task.initialVersionId = task.editor.getModel().getAlternativeVersionId();   //editor.getModel().getAlternativeVersionId();
+	
+		//if (!model) return;
 	
 		// Find the active tab info that owns this model
-		var info = null;
+		/*var info = null;
 		if (task.tabs) {
 			for (var tag in task.tabs) {
 				if (task.tabs.hasOwnProperty(tag) && task.tabs[tag].model === model) {
@@ -4132,19 +4130,19 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 				}
 			}
 		}
-	
-		var value = model.getValue();
+		console.log(info._cleanValu);
+		var value = model.getValue();*/
 	
 		// Store per-model clean snapshot
-		if (info) {
+	   /* if (info) {
 			info._cleanValue = value;
 		} else {
 			// fallback (single-tab scenarios)
 			task._cleanValue = value;
-		}
+		}*/
 	
 		// Optional: create an undo boundary at the save point
-		model.pushStackElement();
+		//model.pushStackElement();
 	}
 	
 	function save_module(task, info) {
@@ -4160,14 +4158,19 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 		}
 		result = task.task.server('server_save_edit', [info.rec_id, text, info.ext === 'py']);
 	
-		if (result.error && result.line && result.line < task.editor.session.getLength()) {
-			task.editor.gotoLine(result.line);
+		if (result.error && result.line) {
+			const lineCount = task.editor.getModel().getLineCount();
+			if (result.line <= lineCount) {
+				task.editor.revealLineInCenter(result.line);
+				task.editor.setPosition({ lineNumber: result.line, column: 1 });
+			}
 		}
+	
 		if (!result.error) {
 			info.module = result.module_info;
 			add_tree(task, info.module, "module");
 			update_tab_height(task);
-		}
+		} 
 		return result.error;
 	}
 	
@@ -4197,7 +4200,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 		else {
 			update_error_message(task, '');
 			mark_clean(task);
-			update_buttons(task)
+			update_buttons(task);
 		}
 	}
 	
@@ -4392,7 +4395,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 	function gotoLine(editor, line) {
 		if (!editor || !editor.getModel()) return;
 		line = Math.max(1, line); // avoid 0 or negative
-		editor.setPosition({ lineNumber: line, column: 1 });
+		editor.setPosition({ lineNumber: line, column: 1});
 		editor.revealLineInCenter(line);
 	}
 	
@@ -4405,7 +4408,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 			forceMoveMarkers: true
 		}]);
 		// move cursor to end of inserted text
-		editor.setPosition({ lineNumber: position.lineNumber + text.split("\n").length - 1, column: 1 });
+		editor.setPosition({lineNumber: position.lineNumber + text.split("\n").length - 1, column: position.column + text.length});
 	}
 	
 	
