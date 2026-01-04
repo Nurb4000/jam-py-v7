@@ -3670,6 +3670,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 			close_editor(task, $(this).parent().attr('id'));
 		});
 	}
+	
 	function init_tab_shortcuts(task) {
 		$(document).on('keydown', function(e) {
 			let current = $('#task-tabs li.active button').attr('id');
@@ -3885,7 +3886,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 	}
 	
 	function close_query(task, tag, callback) {
-		//console.log(get_modified(task));
+		console.log(get_modified(task));
 		if (get_modified(task)) {
 			task.yes_no_cancel(task.language.save_changes,
 				function() {
@@ -3893,7 +3894,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 					callback();
 				},
 				function() {
-					mark_clean(task);
+					mark_clean(task, tag);
 					callback();
 				}
 			);
@@ -4029,10 +4030,15 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 			model = info.model;
 		}
 	
-		task.initialVersionId = task.editor.getModel().getAlternativeVersionId();
+		//task.initialVersionId = task.editor.getModel().getAlternativeVersionId();
 	
 		// Attach model
 		task.editor.setModel(model);
+	
+		//set initialVersionId for tab
+		if (typeof info.initialVersionId === 'undefined') {
+			info.initialVersionId = info.model.getAlternativeVersionId();
+		}
 	
 		// --- restore cursor/scroll state for this tab ---
 		if (info.viewState) {
@@ -4089,10 +4095,10 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 	// }
 	
 	function get_modified(task) {
-		var editor = task.editor,
+		/*var editor = task.editor,
 			model = editor && editor.getModel();
 		
-		//console.log('Base: ' + task.initialVersionId + ' and current: ' + editor.getModel().getAlternativeVersionId());
+		console.log('Base: ' + task.initialVersionId + ' and current: ' + editor.getModel().getAlternativeVersionId());
 		if (model) {
 			model.onDidChangeContent(function (event){
 				if (task.editor.getModel().getAlternativeVersionId() === task.initialVersionId) {
@@ -4102,21 +4108,44 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 				}
 			});
 	
-			if (task.editor.getModel().getAlternativeVersionId() === task.initialVersionId) {
+			if (task.editor.getModel().getAlternativeVersionId() == task.initialVersionId) {
 				return false;
 			}   else {
 				return true;
 			}
 		}   else {
 			return false;
+		}*/
+		const info = task.tabs[task.currentTag];
+		const model = task.editor.getModel();
+	
+		if (info && model) {
+			// If initialVersionId hasn't been set yet (first load), mark it now
+			if (typeof info.initialVersionId === 'undefined') {
+				info.initialVersionId = model.getAlternativeVersionId();
+			}
+			
+			return model.getAlternativeVersionId() !== info.initialVersionId;
 		}
+		return false;
 	}
 	
-	function mark_clean(task) {
-		var editor = task.editor,
+	function mark_clean(task, tag) {
+		/*var editor = task.editor,
 		model = editor && editor.getModel();
 		
 		task.initialVersionId = task.editor.getModel().getAlternativeVersionId();   //editor.getModel().getAlternativeVersionId();
+		update_buttons(task);*/
+	
+		const activeTag = tag || task.currentTag;
+		const info = task.tabs[activeTag];
+		const model = info.model || task.editor.getModel();
+	
+		if (info && model) {
+			// Store the version ID specific to this tab
+			info.initialVersionId = model.getAlternativeVersionId();
+			update_buttons(task);
+		}
 	
 		//if (!model) return;
 	
@@ -4199,7 +4228,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 		}
 		else {
 			update_error_message(task, '');
-			mark_clean(task);
+			mark_clean(task, tag);
 			update_buttons(task);
 		}
 	}
