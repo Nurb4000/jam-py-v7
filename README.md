@@ -45,7 +45,7 @@ Some short videos about how to setup Jam.py and create applications:
 Longer video:
 [video](https://youtu.be/qkJvGlgoabU)  with dashboards and complex internal logic.
 
-Live demos on PythonAnywhere:
+Live demos on PythonAnywhere (pls drop an issue to start the app if "Coming Soon!" shows up):
 
 - [SAP Theme Demo](https://jampyapp.pythonanywhere.com)
 - [Personal Account Ledger from MS Access template](https://msaccess.pythonanywhere.com)
