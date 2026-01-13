@@ -127,6 +127,9 @@ https://jampy-docs-v7.readthedocs.io/
 Brazilian Portuguese translation started at
 https://jampy-docs-v7-br-pt.readthedocs.io/
 
+Simplified Chinese translation started at
+https://jampy-docs.readthedocs.io/projects/V7/zh-cn/latest
+
 Please visit https://jampy-docs-v7.readthedocs.io/en/latest/intro/install.html for Python and
 framework installation or https://jampy-docs-v7.readthedocs.io/en/latest/intro/new_project.html how to create a
 new project.
