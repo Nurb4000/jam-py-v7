@@ -281,7 +281,7 @@ def export_lang(task, lang_id, host):
             language[names[i]] = lang[0][i]
 
         translation = get_dict(task, lang_id)
-        content = json.dumps({'language': language, 'translation': translation})
+        content = json.dumps({'language': language, 'translation': translation}, ensure_ascii=False)
 
         name = language['f_name'].replace(' ', '_')
         file_name = '%s_%s.lang' % (name, datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
