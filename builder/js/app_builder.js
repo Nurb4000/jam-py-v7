@@ -130,7 +130,7 @@ function Events1() { // app_builder
 				templates:	  {handler: task.sys_items.edit_templates, item: task.sys_items, short_cut: 'F9', key_code: 120, icon: 'bi bi-filetype-txt', editor: true},
 				'index.html':   {handler: task.sys_items.edit_index_html, item: task.sys_items, short_cut: 'F10', key_code: 121, icon: 'bi bi-filetype-html', editor: true},
 				'project.css':  {handler: task.sys_items.edit_project_css, item: task.sys_items, short_cut: 'F11', key_code: 122, icon: 'bi bi-filetype-css', editor: true},
-				'Lookup lists': {handler: show_lookup_lists, icon: 'bi bi-card-list', editor: true},
+				'lookup_lists': {handler: show_lookup_lists, icon: 'bi bi-card-list', editor: true},
 				viewing:		{handler: task.sys_items.view_setup, item: task.sys_items, icon: 'bi bi-window', editor: true},
 				editing:		{handler: task.sys_items.edit_setup, item: task.sys_items, icon: 'bi bi-file-ruled', editor: true},
 				filters:		{handler: task.sys_items.filters_setup, item: task.sys_items, icon: 'bi bi-funnel', editor: true},
@@ -142,11 +142,12 @@ function Events1() { // app_builder
 				report_params:  {handler: task.sys_items.report_params_setup, item: task.sys_items, editor: true, short_cut: 'F7', key_code: 118, icon: 'bi bi-card-checklist', editor: true},
 				privileges:	 {handler: task.sys_items.privileges_setup, item: task.sys_items, icon: 'bi bi-person-lock', editor: true},
 				report_templates: {handler: task.sys_items.read_report_folder, item: task.sys_items, icon: 'bi bi-file-earmark-excel', editor: true},
-				'Prepare files': {handler: task.prepare_files, icon: 'bi bi-folder-check'}
+				'prepare_files': {handler: task.prepare_files, icon: 'bi bi-folder-check'}
 			};
 	
 			$("#content").show();
-			$("#title").html('Application builder');
+			$("title").text(task.language.Application_builder);
+			$("#title").text(task.language.Application_builder);
 			if (task.safe_mode) {
 				$("#user-info").text(task.user_info.role_name + ' ' + task.user_info.user_name);
 				$('#log-out').show().click(function(e) {
@@ -168,19 +169,19 @@ function Events1() { // app_builder
 	
 			task.item_tree = task.sys_items.copy({handlers: false, details: false});
 	
-			task.item_tree.on_field_get_text = function(f) {
-				if (f.field_name === 'f_name') {
-					if (f.owner.type_id.value === item_types.TASK_TYPE) {
-						return task.language.groups;
-					}
-				}
-			};
-	//		task.item_tree.on_after_open = function(t) {
-	//			t.locate('type_id', item_types.TASK_TYPE);
-	//			t.edit();
-	//			t.f_name.value = task.language.groups;
-	//			t.post();
-	//		};
+			// task.item_tree.on_field_get_text = function(f) {
+			//	 if (f.field_name === 'f_name') {
+			//		 if (f.owner.type_id.value === item_types.TASK_TYPE) {
+			//			 return task.language.groups;
+			//		 }
+			//	 }
+			// };
+		   task.item_tree.on_after_open = function(t) {
+			   t.locate('type_id', item_types.TASK_TYPE);
+			   t.edit();
+			   t.f_name.value = task.language.groups;
+			   t.post();
+		   };
 			task.tree = task.item_tree.create_tree(task.tree_panel,
 				{
 					id_field: 'id',
@@ -355,7 +356,7 @@ function Events1() { // app_builder
 			];
 		if (task.item_name !== 'admin') {
 			btn_list.push('divider');
-			btn_list.push('Prepare files');
+			btn_list.push('prepare_files');
 		}
 		add_buttons(task, btn_list);
 	}
@@ -860,7 +861,7 @@ function Events2() { // sys_roles
 		let w = '70px',
 			table_height = task.center_panel.height() - item.task.view_panel.height();
 		item.edit_options.fields = ['f_name'];
-		item.edit_options.title = 'Roles' + task.help_badge('https://jampy-docs-v7.readthedocs.io/en/latest/admin/roles.html');
+		item.edit_options.title = item.task.language.roles + task.help_badge('https://jampy-docs-v7.readthedocs.io/en/latest/admin/roles.html');
 		if (item.view_form.hasClass('modal')) {
 			table_height = 460;
 			item.view_options.width = 560;
@@ -1124,7 +1125,7 @@ function Events3() { // sys_items
 				'index.html',
 				'project.css',
 				'divider',
-				'Lookup lists'
+				'lookup_lists'
 			]);
 		}
 		else if (task.item_tree.type_id.value === task.item_types.TASK_TYPE) {
@@ -1809,26 +1810,26 @@ function Events3() { // sys_items
 			help_link,
 			link = '';
 	
-		if (item.type_id.value === item.task.item_types.REPORT_TYPE) {
-			caption = 'Report Editor';
-			help_link = 'https://jampy-docs-v7.readthedocs.io/en/latest/programming/reports/templates.html';
-		}
-		else if (item.type_id.value === item.task.item_types.ITEMS_TYPE) {
-			caption = 'Item Group Editor';
-			help_link = 'https://jampy-docs-v7.readthedocs.io/en/latest/admin/groups/item_group_editor.html';
-		}
-		else if (item.type_id.value === item.task.item_types.TABLES_TYPE) {
-			caption = 'Table Group Editor';
-			help_link = 'https://jampy-docs-v7.readthedocs.io/en/latest/admin/groups/table_group_editor.html';
-		}
-		else if (item.type_id.value === item.task.item_types.REPORTS_TYPE) {
-			caption = 'Report Group Editor';
-			help_link = 'https://jampy-docs-v7.readthedocs.io/en/latest/admin/groups/report_group_editor.html';
-		}
-		else if (item.type_id.value !== item.task.item_types.TASK_TYPE) {
-			caption = 'Item Editor';
-			help_link = 'https://jampy-docs-v7.readthedocs.io/en/latest/admin/items/item_editor_dialog.html';
-		}
+			if (item.type_id.value === item.task.item_types.REPORT_TYPE) {
+				caption = item.task.language.Report_Editor;
+				help_link = 'https://jampy-docs-v7.readthedocs.io/en/latest/programming/reports/templates.html';
+			}
+			else if (item.type_id.value === item.task.item_types.ITEMS_TYPE) {
+				caption = item.task.language.Item_Group_Editor;
+				help_link = 'https://jampy-docs-v7.readthedocs.io/en/latest/admin/groups/item_group_editor.html';
+			}
+			else if (item.type_id.value === item.task.item_types.TABLES_TYPE) {
+				caption = 'item.task.language.Table_Group_Editor';
+				help_link = 'https://jampy-docs-v7.readthedocs.io/en/latest/admin/groups/table_group_editor.html';
+			}
+			else if (item.type_id.value === item.task.item_types.REPORTS_TYPE) {
+				caption = item.task.language.Report_Group_Editor;
+				help_link = 'https://jampy-docs-v7.readthedocs.io/en/latest/admin/groups/report_group_editor.html';
+			}
+			else if (item.type_id.value !== item.task.item_types.TASK_TYPE) {
+				caption = item.task.language.Item_Editor;
+				help_link = 'https://jampy-docs-v7.readthedocs.io/en/latest/admin/items/item_editor_dialog.html';
+			}
 		if (help_link) {
 			link = task.help_badge(help_link);
 		}
@@ -2434,7 +2435,7 @@ function Events3() { // sys_items
 		item.task.sys_filters.view_options.fields = ['f_name', 'f_filter_name', 'f_type', 'f_field', 'f_visible'];
 		item.task.sys_filters.edit_options.fields = ['f_field', 'f_name', 'f_filter_name', 'f_type', 'f_placeholder',
 			'f_help', 'f_visible'];
-		item.task.sys_filters.view_options.title = 'Filters <span class="text-muted">' + 
+		item.task.sys_filters.view_options.title = item.task.language.Filters + ' <span class="text-muted">' + 
 			item.f_item_name.value + '</span>' + help_link;
 		item.task.sys_filters.view();
 	}
@@ -2444,7 +2445,7 @@ function Events3() { // sys_items
 			help_link = task.help_badge('https://jampy-docs-v7.readthedocs.io/en/latest/admin/items/indices_dialog.html');
 		indices.foreign_index = false;
 		indices.set_where({owner_rec_id: item.id.value, f_foreign_index: false});
-		indices.view_options.title = 'Indices <span class="text-muted">' + 
+		indices.view_options.title = item.task.language.Indices + ' <span class="text-muted">' + 
 			item.f_item_name.value + '</span>' + help_link;
 		indices.view();
 	}
@@ -2469,7 +2470,7 @@ function Events3() { // sys_items
 		fields = ['f_name', 'f_param_name','f_data_type', 'f_object', 'f_object_field', 'f_enable_typehead', 'f_multi_select',
 			'f_multi_select_all', 'f_lookup_values', 'f_required', 'f_alignment', 'f_placeholder', 'f_help', 'f_visible'];
 		item.task.sys_report_params.edit_options.fields = fields;
-		item.task.sys_report_params.view_options.title = 'Params <span class="text-muted">' + 
+		item.task.sys_report_params.view_options.title = item.task.language.Params + ' <span class="text-muted">' + 
 			item.f_item_name.value + '</span>' + task.help_badge('https://jampy-docs-v7.readthedocs.io/en/latest/programming/reports/report_parameters.html');
 		item.task.sys_report_params.view();
 	}
@@ -2876,7 +2877,7 @@ function Events3() { // sys_items
 	
 	function read_report_folder(item) {
 		task.report_templates.view_options.template_class = 'import-tables-view';
-		task.report_templates.view_options.title = 'Upload, rename and download report templates' + task.help_badge('https://jampy-docs-v7.readthedocs.io/en/latest/programming/reports/report_parameters.html');
+		task.report_templates.view_options.title = item.task.language.upload_ren_repo_templ + task.help_badge('https://jampy-docs-v7.readthedocs.io/en/latest/programming/reports/report_parameters.html');
 		task.report_templates.view();
 	}
 	this.init_fields = init_fields;
@@ -3564,6 +3565,7 @@ function Events11() { // app_builder.catalogs.sys_lookup_lists
 
 	function init_view_table(item, options) {
 		item.view_options.width = 440;
+		item.view_options.title = item.task.language.lookup_lists + task.help_badge('https://jampy-docs-v7.readthedocs.io/en/latest/admin/lookup_lists.html');
 		options.height = 400;
 	}
 	
@@ -3592,6 +3594,8 @@ function Events11() { // app_builder.catalogs.sys_lookup_lists
 		var lookups = item.task.sys_field_lookups.copy();
 		lookups.edit_options.fields = ['f_value', 'f_lookup'];
 		lookups.view_options.fields = ['f_value', 'f_lookup'];
+		lookups.view_options.title = item.task.language.lookup_lists;
+		lookups.edit_options.title = item.task.language.lookup_lists;
 		lookups.on_edit_form_created = function(l) {
 			l.edit_form.find("#ok-btn").off('click.task').on('click', function() {
 				l.post();
@@ -3653,6 +3657,16 @@ function Events11() { // app_builder.catalogs.sys_lookup_lists
 }
 
 task.events.events11 = new Events11();
+
+function Events12() { // app_builder.catalogs.sys_users 
+
+	function on_view_form_created(item) {
+		item.edit_options.title = item.task.language.users + task.help_badge('https://jampy-docs-v7.readthedocs.io/en/latest/admin/users.html');
+	}
+	this.on_view_form_created = on_view_form_created;
+}
+
+task.events.events12 = new Events12();
 
 function Events14() { // app_builder.catalogs.sys_code_editor 
 
@@ -4751,10 +4765,10 @@ function Events15() { // app_builder.catalogs.sys_fields_editor
 		copy.open({open_empty: true});
 		copy.append();
 		copy.id.value = 1;
-		copy.name.value = 'Tablet';
+		copy.name.value = item.task.language.Tablet;
 		copy.append();
 		copy.id.value = 2;
-		copy.name.value = 'Phone';
+		copy.name.value = item.task.language.Phone;
 		copy.first();
 		let selections = [];
 		if (item.dest_object[1] !== undefined) {
@@ -5041,10 +5055,10 @@ function Events15() { // app_builder.catalogs.sys_fields_editor
 					lookup_item.set_order_by(['f_item_name']);
 					lookup_item.on_after_scroll = undefined;
 					if (field.field_name === 'view_detail') {
-						lookup_item.view_options.title = 'Select details to view';
+						lookup_item.view_options.title = item.task.language.Select_details_to_view;
 					}
 					else {
-						lookup_item.view_options.title = 'Select details to edit';
+						lookup_item.view_options.title = item.task.language.Select_details_to_edit;
 					}
 				}
 				else {
@@ -5055,23 +5069,23 @@ function Events15() { // app_builder.catalogs.sys_fields_editor
 						ids.push(c.id.value);
 					})
 					if (field.field_name === 'summary_fields') {
-						lookup_item.view_options.title = 'Select summary fields';
+						lookup_item.view_options.title = item.task.language.Select_summary_fields;
 					}
 					else if (field.field_name === 'sort_fields') {
-						lookup_item.view_options.title = 'Select fields to sort by';
+						lookup_item.view_options.title = item.task.language.Select_fields_to_sort_by;
 					}
 					else if (field.field_name === 'search_field') {
 						where.f_data_type__not_in = [task.consts.DATE, task.consts.DATETIME, task.consts.BOOLEAN];
 					}
 					else {
-						lookup_item.view_options.title = 'Select fields to edit';
+						lookup_item.view_options.title = item.task.language.Select_fields_to_edit;
 						where['f_master_field__isnull'] = true;
 					}
 					lookup_item.set_where(where);
 					lookup_item.view_options.fields = ['f_field_name'];
 					lookup_item.set_order_by(['f_field_name']);
 					if (field.field_name === 'search_field') {
-						lookup_item.view_options.title = 'Select default search field';
+						lookup_item.view_options.title = item.task.language.default_search_field;
 						lookup_item.on_selection_changed = function(it, added, deleted) {
 							if (!lookup_item.sel_changing) {
 								lookup_item.sel_changing = true;
@@ -6034,6 +6048,7 @@ function Events24() { // app_builder.details.sys_privileges
 	
 	function on_view_form_created(item) {
 		item.view_options.width = 760;
+	
 		item.view_form.find("#select-all-btn")
 			.text(item.task.language.select_all)
 			.on('click.task', function() {select_all_clicked(item);});
@@ -6158,6 +6173,10 @@ task.events.events24 = new Events24();
 
 function Events25() { // app_builder.details.sys_field_lookups 
 
+	// function on_edit_form_created(item) {
+	//	 item.edit_options.title = item.task.language.lookup_lists + task.help_badge('https://jampy-docs-v7.readthedocs.io/en/latest/admin/lookup_lists.html');
+	// }
+	
 	function on_field_validate(field) {
 		if (field.field_name === 'f_value' && field.value <= 0) {
 			return 'Value must be greater than zero';
