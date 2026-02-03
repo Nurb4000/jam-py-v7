@@ -1381,12 +1381,17 @@ class AbsrtactItem {
         if (hist.record_count()) {
             html = acc_div;
         }
-        mess = self.task.message(html, {width: 600, height: 600,
-            title: hist.item_caption + ': ' + self.item_caption, footer: false, print: true});
+        //mess = self.task.message(html, {width: 600, height: 600,
+        //    title: hist.item_caption + ': ' + self.item_caption, footer: false, print: true});
+		
+		var pending = 0;
         for (var ID in lookups) {
             if (lookups.hasOwnProperty(ID)) {
+				var field_value;
                 lookup_item = self.task.item_by_ID(parseInt(ID, 10));
                 if (lookup_item) {
+					pending++; 
+					
                     lookup_item = lookup_item.copy({handlers: false});
                     lookup_keys = {};
                     lookup_fields = {};
@@ -1394,6 +1399,7 @@ class AbsrtactItem {
                     for (var i = 0; i < lookups[ID].length; i++) {
                         lookup_fields[lookups[ID][i][0]] = true;
                         lookup_keys[lookups[ID][i][1]] = true;
+						field_value = lookups[ID][i][1];
                     }
                     keys = [];
                     for (var key in lookup_keys) {
@@ -1418,11 +1424,31 @@ class AbsrtactItem {
                                 }
                             });
                         });
-                    })
+						
+						pending--;
+						if (pending === 0) {
+							this._create_history_modal(hist.item_caption, self.item_caption, html);
+						}
+                    });
                 }
+				
             }
         }
+		
+		if (pending === 0) {
+			this._create_history_modal(hist.item_caption, self.item_caption);
+		}
     }
+	
+	_create_history_modal(hist_item_caption, item_caption, html) {
+		self.task.message(html, {
+			width: 600,
+			height: 600,
+			title: hist_item_caption + ': ' + item_caption,
+			footer: false,
+			print: true
+		});
+	}
 
     show_history() {
         var self = this,

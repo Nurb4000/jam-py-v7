@@ -718,9 +718,11 @@ class Task extends AbsrtactItem {
             if (menu_item.items[menu_item.items.length - 1].caption === '') {
                 menu_item.items.pop();
             }
-            if (menu_item.items[0].caption === '') {
-                menu_item.items.shift();
-            }
+			if (menu_item.items[0]) {
+				if (menu_item.items[0].caption === '') {
+					menu_item.items.shift();
+				}
+			}
             for (let i = 0; i < menu_item.items.length; i++) {
                 this._clear_dividers(menu_item.items[i]);
             }

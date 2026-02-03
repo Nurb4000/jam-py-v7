@@ -123,7 +123,13 @@ class PostgresDB(AbstractDB):
         return result
 
     def create_index(self, index_name, table_name, unique, fields, desc):
-        return 'CREATE %s INDEX "%s" ON "%s" (%s)' % (unique, index_name, table_name, fields)
+        #return 'CREATE %s INDEX "%s" ON "%s" (%s)' % (unique, index_name, table_name, fields)
+        return 'CREATE %s INDEX IF NOT EXISTS "%s" ON "%s" (%s)' % (
+            unique,
+            index_name,
+            table_name,
+            fields
+        )
 
     def drop_index(self, table_name, index_name):
         return 'DROP INDEX "%s"' % index_name

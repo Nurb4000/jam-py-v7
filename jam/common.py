@@ -77,11 +77,15 @@ class Consts(object):
     SQLITE, FIREBIRD, POSTGRESQL, MYSQL, ORACLE, MSSQL, DATABRICKS = range(1, 8)
     DB_TYPE = ('Sqlite', 'FireBird', 'PostgreSQL', 'MySQL', 'Oracle', 'MSSQL', 'Databricks')
     THEMES = ('Bootstrap', 'Cerulean', 'Quartz', 'Flatly', 'Journal',
-        'Darkly', 'United', 'Cosmo', 'Materia', 'Morph')
-    THEME_FILE = ('', 'bootstrap.css', 'bootstrap-cerulean.css',
-        'bootstrap-quartz.css', 'bootstrap-flatly.css', 'bootstrap-journal.css',
-        'bootstrap-darkly.css ', 'bootstrap-united.css', 'bootstrap-cosmo.css',
-        'bootstrap-materia.css', 'bootstrap-morph.css')
+        'Darkly', 'United', 'Cosmo', 'Materia', 'Morph', 'Zephyr', 'Lumen', 'Litera', 'Vapor','Sandstone', 'Cyborg','Slate', 'Solar', 'Superhero', 'Yeti')
+    THEME_FILE = ('', 'bootstrap.css', 'bootstrap-cerulean.css', 'bootstrap-quartz.css', 'bootstrap-flatly.css', 
+        'bootstrap-journal.css', 'bootstrap-darkly.css ', 'bootstrap-united.css', 'bootstrap-cosmo.css', 
+        'bootstrap-materia.css', 'bootstrap-morph.css', 'bootstrap-zephyr.css', 'bootstrap-lumen.css', 
+        'bootstrap-litera.css', 'bootstrap-vapor.css','bootstrap-sandstone.css', 'bootstrap-cyborg.css', 
+        'bootstrap-slate.css', 'bootstrap-solar.css', 'bootstrap-superhero.css', 'bootstrap-yeti.css')
+    #builder theme
+    #BUILDER_THEMES = ('Bootstrap', 'Cerulean', 'Darkly')
+    #BUILDER_THEME_FILE = ('', 'bootstrap.css', 'bootstrap-cerulean.css', 'bootstrap-darkly.css ')
     ACE_THEMES = ('vs', 'vs-dark', 'hc-black', 'hc-light')
     PROJECT_NONE, PROJECT_NO_PROJECT, PROJECT_LOADING, PROJECT_ERROR, \
         PROJECT_NOT_LOGGED, PROJECT_LOGGED, PROJECT_MAINTAINANCE, \
