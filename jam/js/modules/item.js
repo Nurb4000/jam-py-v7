@@ -443,8 +443,8 @@ class Item extends AbsrtactItem {
         this.field_defs = [];
         for (var i = 0; i < fields.length; i++) {
             field_def = []
-            for (var j = 0; j < field_attr.length; j++) {
-                attr = field_attr[j];
+            for (var j = 0; j < consts.field_attr.length; j++) {
+                attr = consts.field_attr[j];
                 if (attr.charAt(0) === '_') {
                     attr = attr.substr(1);
                 }
@@ -458,7 +458,7 @@ class Item extends AbsrtactItem {
                         break;
                     case 'field_type':
                         field_type = fields[i]['field_type']
-                        val = field_type_names.indexOf(field_type);
+                        val = consts.field_type_names.indexOf(field_type);
                         if (val < 1) {
                             val = 1;
                         }
