@@ -1262,13 +1262,8 @@ class AbsrtactItem {
             item,
             master,
             lookups = {},
-            lookup_keys,
-            lookup_fields,
-            keys,
-            fields,
-            where,
-            lookup_item,
-            mess;
+            lookup_item;
+
         if (self.master) {
             master = self.master.copy({handlers: false});
             item = master.item_by_ID(self.ID);
@@ -1278,8 +1273,10 @@ class AbsrtactItem {
         else {
             item = self.copy({handlers: false, details: false});
         }
+        
         item.open({open_empty: true});
         item.append();
+        
         hist.each(function(h) {
             var acc = $(
                 '<div class="accordion-item">' +
@@ -1289,7 +1286,6 @@ class AbsrtactItem {
                     '</h3>' +
                     '<div id="collapse' + h.rec_no + '" class="accordion-collapse collapse" data-bs-parent="#history_accordion">' +
                         '<div class="accordion-body">' +
-
                         '</div>' +
                     '</div>' +
                  '</div>'
@@ -1297,7 +1293,6 @@ class AbsrtactItem {
                 i,
                 user = '',
                 content = '',
-                old_value,
                 new_value,
                 val_index,
                 field,
@@ -1305,11 +1300,13 @@ class AbsrtactItem {
                 changes,
                 operation,
                 field_arr;
+            
             changes = h.changes.value;
             if (changes && changes[0] === '0') {
                 changes = changes.substring(1);
                 changes = JSON.parse(changes);
             }
+            
             if (h.operation.value === consts.RECORD_DELETED) {
                 content = '<p>Record deleted</p>'
             }
@@ -1332,16 +1329,17 @@ class AbsrtactItem {
                                 new_value = field.value;
                                 if (new_value) {
                                     lookups[field.lookup_item.ID].push([field.lookup_field, new_value]);
-                                    new_value = '<span class="' + field.lookup_field + '_' + new_value + '">' + task.language.value_loading + '</span>'
+                                    new_value = '<span class="' + field.lookup_field + '_' + new_value + '">' + self.task.language.value_loading + '</span>';
                                 }
                             }
                             else {
                                 field.data = field_arr[i][val_index];
                                 new_value = field.sanitized_text;
                                 if (field.data === null) {
-                                    new_value = ' '
+                                    new_value = ' ';
                                 }
                             }
+                            
                             if (h.operation.value === consts.RECORD_INSERTED) {
                                 content += '<p>' + self.task.language.field + ' <b>' + field_name + '</b>: ' +
                                     self.task.language.new_value + ': <b>' + new_value + '</b></p>';
@@ -1354,9 +1352,11 @@ class AbsrtactItem {
                     }
                 }
             }
+            
             if (h.user.value) {
                 user = self.task.language.by_user + ' ' + h.user.value;
             }
+            
             if (h.operation.value === consts.RECORD_INSERTED) {
                 operation = self.task.language.created;
             }
@@ -1372,84 +1372,124 @@ class AbsrtactItem {
                 .html(h.date.format_date_to_string(h.date.value, '%d.%m.%Y %H:%M:%S') + ': ' +
                     operation + ' ' + user);
             acc.find('.accordion-body').html(content);
+            
             if (h.rec_no === 0) {
                 acc.find('.accordion-button').removeClass('collapsed');
                 acc.find('.accordion-collapse').addClass('show');
             }
-            acc_div.append(acc)
-        })
-        if (hist.record_count()) {
-            html = acc_div;
+            acc_div.append(acc);
+        });
+        
+        if (!hist.record_count() || hist.record_count() === 0) {
+            self.task.message('No history records found.', {
+                width: 400,
+                height: 200,
+                title: 'No History'
+            });
+            return;
         }
-        //mess = self.task.message(html, {width: 600, height: 600,
-        //    title: hist.item_caption + ': ' + self.item_caption, footer: false, print: true});
-		
-		var pending = 0;
+        
+        html = acc_div;
+        
+        if (html instanceof jQuery) {
+            html = $('<div>').append(html.clone()).html();
+        }
+        
+        if (Object.keys(lookups).length === 0) {
+            self.task.message(html, {
+                width: 600, 
+                height: 600,
+                title: hist.item_caption + ': ' + self.item_caption, 
+                footer: false, 
+                print: true
+            });
+            return;
+        }
+        
+        var pending = 0;
+        var lookupItems = {};
+        
         for (var ID in lookups) {
             if (lookups.hasOwnProperty(ID)) {
-				var field_value;
                 lookup_item = self.task.item_by_ID(parseInt(ID, 10));
                 if (lookup_item) {
-					pending++; 
-					
-                    lookup_item = lookup_item.copy({handlers: false});
-                    lookup_keys = {};
-                    lookup_fields = {};
-                    lookup_fields[lookup_item._primary_key] = true;
+                    pending++;
+                    lookupItems[ID] = {
+                        item: lookup_item,
+                        keys: {},
+                        fields: {}
+                    };
+                    
+                    lookupItems[ID].fields[lookup_item._primary_key] = true;
                     for (var i = 0; i < lookups[ID].length; i++) {
-                        lookup_fields[lookups[ID][i][0]] = true;
-                        lookup_keys[lookups[ID][i][1]] = true;
-						field_value = lookups[ID][i][1];
+                        lookupItems[ID].fields[lookups[ID][i][0]] = true;
+                        lookupItems[ID].keys[lookups[ID][i][1]] = true;
                     }
-                    keys = [];
-                    for (var key in lookup_keys) {
-                        if (lookup_keys.hasOwnProperty(key)) {
-                            keys.push(parseInt(key, 10));
-                        }
-                    }
-                    fields = [];
-                    for (var field in lookup_fields) {
-                        if (lookup_fields.hasOwnProperty(field)) {
-                            fields.push(field);
-                        }
-                    }
-                    where = {}
-                    where[lookup_item._primary_key + '__in'] = keys
-                    lookup_item.open({where: where, fields: fields}, function() {
-                        var lookup_item = this;
-                        lookup_item.each(function(l) {
-                            l.each_field(function(f) {
-                                if (!f.system_field()) {
-                                    acc_div.find("." + f.field_name + '_' + l._primary_key_field.value).text(f.sanitized_text);
-                                }
-                            });
-                        });
-						
-						pending--;
-						if (pending === 0) {
-							this._create_history_modal(hist.item_caption, self.item_caption, html);
-						}
-                    });
                 }
-				
             }
         }
-		
-		if (pending === 0) {
-			this._create_history_modal(hist.item_caption, self.item_caption);
-		}
+        
+        if (pending === 0) {
+            self.task.message(html, {
+                width: 600, 
+                height: 600,
+                title: hist.item_caption + ': ' + self.item_caption, 
+                footer: false, 
+                print: true
+            });
+            return;
+        }
+        
+        for (var ID in lookupItems) {
+            (function(currentID, lookupData) {
+                var keys = [];
+                for (var key in lookupData.keys) {
+                    if (lookupData.keys.hasOwnProperty(key)) {
+                        keys.push(parseInt(key, 10));
+                    }
+                }
+                
+                var fields = [];
+                for (var field in lookupData.fields) {
+                    if (lookupData.fields.hasOwnProperty(field)) {
+                        fields.push(field);
+                    }
+                }
+                
+                var where = {};
+                where[lookupData.item._primary_key + '__in'] = keys;
+                
+                var lookupCopy = lookupData.item.copy({handlers: false});
+                
+                lookupCopy.open({where: where, fields: fields}, function() {
+                    var lookup_item = this;
+                    lookup_item.each(function(l) {
+                        l.each_field(function(f) {
+                            if (!f.system_field()) {
+                                var selector = "." + f.field_name + '_' + l._primary_key_field.value;
+                                var elements = acc_div.find(selector);
+                                if (elements.length > 0) {
+                                    elements.text(f.sanitized_text);
+                                }
+                            }
+                        });
+                    });
+                    
+                    pending--;
+                    if (pending === 0) {
+                        var finalHtml = $('<div>').append(acc_div.clone()).html();
+                        self.task.message(finalHtml, {
+                            width: 600, 
+                            height: 600,
+                            title: hist.item_caption + ': ' + self.item_caption, 
+                            footer: false, 
+                            print: true
+                        });
+                    }
+                });
+            })(ID, lookupItems[ID]);
+        }
     }
-	
-	_create_history_modal(hist_item_caption, item_caption, html) {
-		self.task.message(html, {
-			width: 600,
-			height: 600,
-			title: hist_item_caption + ': ' + item_caption,
-			footer: false,
-			print: true
-		});
-	}
-
     show_history() {
         var self = this,
             item_id = this.ID,
