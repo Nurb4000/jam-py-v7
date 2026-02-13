@@ -122,6 +122,8 @@ the client utilizes [JavaScript](https://developer.mozilla.org/en/docs/Web/JavaS
 
 All updated documentation for v7 is online at
 https://jampy-docs-v7.readthedocs.io/
+or
+https://jam-py-v7.github.io/jampy-docs-v7/
 
 Brazilian Portuguese translation started at
 https://jampy-docs-v7-br-pt.readthedocs.io/
