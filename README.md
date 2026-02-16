@@ -35,6 +35,8 @@ server.py
 
 [![alt text](https://github.com/jam-py-v5/jam-py/blob/develop/assets/images/JAMPY_Readme.gif?raw=true)](https://northwind.pythonanywhere.com)
 
+Builder animation:
+[![alt text](https://github.com/jam-py-v5/jam-py/blob/develop/assets/images/builder_animation.gif?raw=true)](https://northwind.pythonanywhere.com)
 
 Some short videos about how to setup Jam.py and create applications:
 
