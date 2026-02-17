@@ -765,7 +765,7 @@ class DBTableInput extends DBAbstractInput {
     add_to_dom(field, tabIndex, container) {
         this.$input = $('<input type="text" class="form-control">');
         if (field.lookup_data_type === consts.BOOLEAN) {
-            input = $('<input class="form-check-input" type="checkbox" value="">');
+            let input = $('<input class="form-check-input" type="checkbox" value="">');
         }
         let align = this.field.lookup_data_type === consts.BOOLEAN ? 'center' : consts.align_value[this.field.alignment];
         this.$input.css("text-align", align);
