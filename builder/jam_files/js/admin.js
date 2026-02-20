@@ -859,7 +859,8 @@ function Events2() { // sys_roles
 
 	function on_view_form_created(item) {
 		let w = '70px',
-			table_height = task.center_panel.height() - item.task.view_panel.height();
+			// table_height = task.center_panel.height() - item.task.view_panel.height();
+		table_height = Math.max(task.center_panel.height() - item.task.view_panel.height(), 400);
 		item.edit_options.fields = ['f_name'];
 		item.edit_options.title = item.task.language.roles + task.help_badge('https://jampy-docs-v7.readthedocs.io/en/latest/admin/roles.html');
 		if (item.view_form.hasClass('modal')) {
@@ -3765,7 +3766,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 	
 		window.addEventListener('keydown', function(e) {
 			// debug tip: uncomment to inspect real events
-			console.log('global keydown', e.code, e.key, 'ctrl', e.ctrlKey, 'alt', e.altKey, 'meta', e.metaKey, 'shift', e.shiftKey);
+			// console.log('global keydown', e.code, e.key, 'ctrl', e.ctrlKey, 'alt', e.altKey, 'meta', e.metaKey, 'shift', e.shiftKey);
 	
 			// ignore if user is typing in a normal input/textarea (but still allow if focus is Monaco)
 			const active = document.activeElement;
@@ -3777,7 +3778,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 	
 			// Ctrl/Cmd + Alt + Right
 			if (ctrlOrCmd && e.altKey && e.code === 'ArrowRight') {
-				console.log("Navigating to tab id:");
+				// console.log("Navigating to tab id:");
 	
 				e.preventDefault();
 				changeTabByOffset(1);
@@ -3786,7 +3787,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 	
 			// Ctrl/Cmd + Alt + Left
 			if (ctrlOrCmd && e.altKey && e.code === 'ArrowLeft') {
-				console.log("Navigating to tab id:");
+				// console.log("Navigating to tab id:");
 	
 				e.preventDefault();
 				changeTabByOffset(-1);
@@ -3811,7 +3812,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 			if (current) {
 				close_editor(task, current);
 			} else {
-				console.warn("No active tab found!");
+				// console.warn("No active tab found!");
 			}
 		} 
 	}, true);
@@ -3826,7 +3827,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 		let nextIdx = (idx + offset + $buttons.length) % $buttons.length;
 		let nextId = $buttons.eq(nextIdx).attr('id');
 		if (nextId) show_tab(task, nextId);
-		console.log("Navigating to tab id:");
+		// console.log("Navigating to tab id:");
 	
 	}
 	
@@ -3834,7 +3835,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 		const ctrlOrCmd = e.ctrlKey || e.metaKey;
 	
 		if (ctrlOrCmd && e.altKey && e.code === 'ArrowRight') {
-			console.log("Navigating to tab id:");
+			// console.log("Navigating to tab id:");
 	
 			e.preventDefault();
 			switchTab(1);
@@ -3900,7 +3901,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 	}
 	
 	function close_query(task, tag, callback) {
-		console.log(get_modified(task));
+		// console.log(get_modified(task));
 		if (get_modified(task)) {
 			task.yes_no_cancel(task.language.save_changes,
 				function() {
