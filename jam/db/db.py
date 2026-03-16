@@ -261,7 +261,10 @@ class AbstractDB(object):
                     copy.set_fields([field.field_name])
                     copy.open(expanded=False, limit=1, connection=connection)
                     if copy.rec_count:
-                        raise Exception(consts.language('cant_delete_used_record'))
+                        raise Exception(
+                                f"{consts.language('cant_delete_used_record')}\n"
+                                f"in field '{field.field_name}' ({item.item_name})"
+                        )
 
     def get_user(self, delta):
         user = None
