@@ -5,7 +5,7 @@ import jam
 setup(
     name='jam.py-v7',
     version=jam.version(),
-    url='https://github.com/jam-py-v5/jam-py',
+    url='https://github.com/jam-py-v5/jam-py-v7',
     author='Andrew Yushev',
     author_email='yushevaa@gmail.com',
     description=('Jam.py Application Builder is an event-driven framework \
