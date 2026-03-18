@@ -80,10 +80,10 @@ class MSSqlDB(AbstractDB):
         return tuple(result)
 
     def convert_like(self, field_name, val, data_type):
-        if data_type in [consts.INTEGER, consts.FLOAT, consts.CURRENCY]:
+        if data_type in [consts.FLOAT, consts.CURRENCY]:
             return 'CAST(CAST(%s AS DECIMAL(20, 10)) AS VARCHAR(20))' % field_name, val
         else:
-            return field_name, val
+            return '%s' % field_name, val.upper()
 
     def set_identity_insert(self, table_name, on):
         if on:
