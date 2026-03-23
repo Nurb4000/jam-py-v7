@@ -1072,6 +1072,16 @@ class DBTable {
                 self.$table.focus();
             }
         });
+		
+		//enter press handle
+		$input.keydown(function(e) {
+            var code = e.which;
+            if (code === 13) {
+                e.preventDefault();
+				e.stopPropagation();
+				//console.log('Enter pressed');
+			}
+		});
     }
 
     calculate() {

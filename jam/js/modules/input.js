@@ -124,7 +124,7 @@ class DBAbstractInput {
 			this.$container.find('button.last-btn').hide();
 			this.$container.attr("id", this.field.field_name  + "_zebra_date_picker"); 
 			this.$input.attr("data-zdp_readonly_element", "false");
-			this.$input.addClass("rounded-0 rounded-end-3"); 
+			this.$input.addClass("rounded-0 rounded-end"); 
 			this.show_date_picker();
 		}
 
