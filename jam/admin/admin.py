@@ -228,11 +228,13 @@ def change_item_query(delta, old_fields, new_fields):
             if old_field and new_field:
                 if old_field.field_name != new_field.field_name:
                     return True
-                elif db.default_text(old_field) != db.default_text(new_field):
+                # elif db.default_text(old_field) != db.default_text(new_field):
+                elif old_field.default_value != new_field.default_value:
                     return True
             elif old_field and not new_field:
                 return True
-
+        return False  
+        
     db = delta.task.task_db_module
     table_name = delta.f_table_name.value
     result = []
