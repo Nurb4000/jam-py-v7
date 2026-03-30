@@ -30,7 +30,7 @@ setup(
         'css/*', 'css/bs5/*.*', 'css/bs5/fonts/*.*',
         'css/zebra_datepicker/**/*.*',
         'img/*.*', 'project/*.*', 'project/css/*.*', 'admin/builder_structure.info']},
-    scripts=['jam/bin/jam-project.py'],
+    scripts=['jam/bin/jam-project.py', 'jam/bin/jam-secure-project.py'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Environment :: Web Environment',
