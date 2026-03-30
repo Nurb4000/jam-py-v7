@@ -25,6 +25,14 @@ def get_database(app, db_type, lib):
             from .mssql_db2 import db
         else:
             from .mssql_db import db
+    elif db_type == consts.DUCKDB:
+        from .duck_db import db
+        if lib == 1:
+            from .duck_db1 import db
+        elif lib == 2:
+            from .duck_db2 import db
+        else:
+            from .duck_db import db
     if db:
         db.app = app
     return db
