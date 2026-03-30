@@ -56,7 +56,8 @@ Live demos on PythonAnywhere (pls drop an issue to start the app if "Coming Soon
   
 - [NorthWind Traders from MS Access template V7 (wip)](https://northwind.jampyapplicationbuilder.com)
 
-  
+
+- [DuckDB local parquet DB example](https://duckdb.pythonanywhere.com/)   
 - [The ERP POC Demo with Italian and English translations](https://sem.pythonanywhere.com)
 - [Sir Edward Elgar Discography from MS Access - or any discography](https://elgar.pythonanywhere.com/)
 - [Assets/Parts Application (wip, currently Jam V7 Demo)](https://jampy.pythonanywhere.com)
