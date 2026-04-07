@@ -141,7 +141,7 @@ group_server_events = \
 
 reports_server_events = \
     {
-        'on_convert_report': 'report'
+        # 'on_convert_report': 'report'
     }
 
 detail_server_events = \
@@ -156,6 +156,7 @@ item_server_events['on_after_apply_record'] = 'item, delta, params, connection'
 
 report_server_events = \
     {
+        'on_convert_report': 'report',
         'on_before_generate': 'report',
         'on_generate': 'report',
         'on_after_generate': 'report',
