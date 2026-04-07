@@ -47,14 +47,13 @@ Some short videos about how to setup Jam.py and create applications:
 Longer video:
 [video](https://youtu.be/qkJvGlgoabU)  with dashboards and complex internal logic.
 
-Live demos on PythonAnywhere (pls drop an issue to start the app if "Coming Soon!" shows up):
+Live demos on PythonAnywhere:
 
-- [SAP Theme Demo](https://jampyapp.pythonanywhere.com)
 - [Personal Account Ledger from MS Access template](https://msaccess.pythonanywhere.com)
 
-  Below two apps demonstrate Matplotlib, Pandas, NumPy and RFM analysis, which stands for R ecency, F requency, and M onetary value, directly migrated from MS Access template:
+  Below NorthWind app demonstrate Matplotlib, Pandas, NumPy and RFM analysis, which stands for R ecency, F requency, and M onetary value, directly migrated from MS Access template:
   
-- [NorthWind Traders from MS Access template V7 (wip)](https://northwind.jampyapplicationbuilder.com)
+- [NorthWind Traders from MS Access template V7 (wip)](https://northwind.pythonanywhere.com/)
 
 
 - [DuckDB local parquet DB example](https://duckdb.pythonanywhere.com/)   
@@ -71,7 +70,7 @@ Live demos on PythonAnywhere (pls drop an issue to start the app if "Coming Soon
 - [IP Management V7 (wip)](https://ipmgmt.pythonanywhere.com)
 - [Sistema Integrado de Gestão - IMS for Brazilian Market (Portuguese)](https://imsmax.pythonanywhere.com)
 - [ Bills of Materials, sourced from  https://github.com/mpkasp/django-bom as no-code,  V7 (wip)](https://billsofmaterials.pythonanywhere.com)
-
+- [SAP Theme Demo](https://jampyapp.pythonanywhere.com)
 
 Jam.py alternative site:
 
