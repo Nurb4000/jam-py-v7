@@ -529,7 +529,7 @@
                     // minutes and seconds
                     date_chars = {
                         days:       ['d', 'j', 'D'],
-                        months:     ['F', 'm', 'n', 't'],
+                        months:     ['F', 'm', 'M', 'n', 't'],
                         years:      ['o', 'Y', 'y'],
                         hours:      ['G', 'g', 'H', 'h'],
                         minutes:    ['i'],
@@ -1258,7 +1258,7 @@
                                 marginTop:      0,
                                 marginRight:    0,
                                 marginBottom:   0,
-                                marginLeft:     -1
+                                marginLeft:     0
                             });
 
                             // create the actual calendar icon (show a disabled icon if the element is disabled)
@@ -1760,7 +1760,7 @@
 
                         // execute the callback function
                         // make "this" inside the callback function refer to the element the date picker is attached to, as a jQuery object
-						plugin.settings.onSelect.call($element, format(js_date), selected_year + '-' + str_pad(selected_month + 1, 2) + '-' + str_pad(default_day, 2) + (timepicker_config ? ' ' + str_pad(js_date.getHours(), 2) + ':' + str_pad(js_date.getMinutes(), 2) + ':' + str_pad(js_date.getSeconds(), 2) : ''), js_date);
+                        plugin.settings.onSelect.call($element, format(js_date), selected_year + '-' + str_pad(selected_month + 1, 2) + '-' + str_pad(default_day, 2) + (timepicker_config ? ' ' + str_pad(js_date.getHours(), 2) + ':' + str_pad(js_date.getMinutes(), 2) + ':' + str_pad(js_date.getSeconds(), 2) : ''), js_date);
 
                     }
 
@@ -3855,6 +3855,7 @@
 
                 // if date picker is to be injected into the <body>
                 if (plugin.settings.container.is('body')) {
+
                     var
 
                         // get the date picker width and height
