@@ -12,6 +12,9 @@ https://jampy-docs-v7.readthedocs.io/en/latest/llms-full.txt
 and 
 https://jampy-docs-v7.readthedocs.io/en/latest/llms.txt
 
+## Chinese Demo:
+https://github.com/jam-py-v7/jampy-docs-v7-zh-cn
+
 All batteries included and event driven! What is EDA:
 
 "An event-driven framework, also known as event-driven architecture (EDA), is a design pattern where software components communicate and react to changes in state or events." Everything in Jam.py can be an event. Like a mouse click, or pressing CRTL+Ins, CTRL+Del or whatever is defined by you.
