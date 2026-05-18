@@ -4376,13 +4376,29 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 	
 				var url = base_url + encodeURIComponent(name) + '.html';
 	
-				var icon_link = `
-					<a href="${url}" target="_blank" title="Open ${name}" class="icon-link" style="text-decoration: none;">
-						<span class="icon" style="margin-left:5px;color:#888;">🔍</span>
-					</a>
-				`;
+				// var icon_link = `
+				//	 <a href="${url}" target="_blank" title="Open ${name}" class="icon-link" style="text-decoration: none;">
+				//		 <span class="icon" style="margin-left:5px;color:#888;">🔍</span>
+				//	 </a>
+				// `;
 	
-				$span.append(icon_link);
+				// $span.append(icon_link);
+				const link = $('<a>', {
+					href: url,
+					target: '_blank',
+					title: `Open ${name}`,
+					class: 'icon-link',
+					css: { textDecoration: 'none' }
+				});
+	
+				const icon = $('<span>', {
+					class: 'icon',
+					css: { marginLeft: '5px', color: '#888' },
+					html: '🔍'
+				});
+	
+				link.append(icon);
+				$span.append(link);
 			}
 		});
 	}
