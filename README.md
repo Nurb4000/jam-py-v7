@@ -58,22 +58,8 @@ Live demos on PythonAnywhere:
   
 - [NorthWind Traders from MS Access template V7 (wip)](https://northwind.pythonanywhere.com/)
 
-
-- [DuckDB local parquet DB example](https://duckdb.pythonanywhere.com/)   
-- [The ERP POC Demo with Italian and English translations](https://sem.pythonanywhere.com)
-- [Sir Edward Elgar Discography from MS Access - or any discography](https://elgar.pythonanywhere.com/)
-- [Assets/Parts Application (wip, currently Jam V7 Demo)](https://jampy.pythonanywhere.com)
-- [Machine Learning (wip)](https://mlearning.pythonanywhere.com)
-- [Auto Parts Sales for Brazilian Market (Portuguese)](https://carparts.pythonanywhere.com)
-- [Resourcing and Billing Application from MS Access DB (wip)](https://resourcingandbilling.pythonanywhere.com)
-- [Job Positions tracking App from MS Access DB (wip)](https://positionstracking.pythonanywhere.com)
 - [Kanban/Tasks Application, V7](https://kanban.pythonanywhere.com)
-- [Assets Inventory Application, V7 (wip)](https://assetinventory.pythonanywhere.com)
 - [Google Authentication, V7](https://ipam2.pythonanywhere.com)
-- [IP Management V7 (wip)](https://ipmgmt.pythonanywhere.com)
-- [Sistema Integrado de Gestão - IMS for Brazilian Market (Portuguese)](https://imsmax.pythonanywhere.com)
-- [ Bills of Materials, sourced from  https://github.com/mpkasp/django-bom as no-code,  V7 (wip)](https://billsofmaterials.pythonanywhere.com)
-- [SAP Theme Demo](https://jampyapp.pythonanywhere.com)
 
 Jam.py alternative site:
 
