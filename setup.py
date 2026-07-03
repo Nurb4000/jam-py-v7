@@ -13,7 +13,7 @@ setup(
     license='BSD',
     python_requires = '>= 3.7',
     install_requires=[
-        "Werkzeug>=3.0.0",
+        "Werkzeug>=3.1.8",
         "sqlalchemy",
         "esprima",
         "pyjsparser",
