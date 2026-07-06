@@ -1988,12 +1988,12 @@ class Item extends AbsrtactItem {
             filter_type = consts.filter_value.indexOf(filter) + 1;
         }
         //if (!this.paginate && this.master || this.virtual_table) {
-	if (this.virtual_table) {
-            this._search_detail(field_name, text, callback);
-        }
-        else {
-            this._pagination_search(field_name, text, filter_type, callback, paginating);
-        }
+		/*if (this.virtual_table) {
+			this._search_detail(field_name, text, callback);
+		}
+		else {*/
+			this._pagination_search(field_name, text, filter_type, callback, paginating);	//works for db table and virtual table
+		//}
     }
 
     _search_detail(field_name, text, callback) {

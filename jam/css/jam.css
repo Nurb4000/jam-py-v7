@@ -521,11 +521,11 @@ form.input-form {
     border: 1px solid red;
 }
 
-/* fix for new zebra datepicker plugin */
-.first-btn {
+/* fix for new zebra datepicker plugin commented 03.07.2026*/
+/*.first-btn {
     height: calc(1.5em + 0.75rem + 2px) !important;
     flex-shrink: 0;
-}
+}*/
 
 /* new zebra datepicker modal form fix */
 .modal-body .Zebra_DatePicker_Icon {

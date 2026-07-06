@@ -645,16 +645,41 @@ class AbsrtactItem {
             let $input = $(this);
             $input.css('font-weight', 'normal')
             clearTimeout(time_out);
-            time_out = setTimeout(
-                function() {
-                    let search_type = 'contains_all';
-                    self.set_order_by(self.view_options.default_order);
-                    self._search_params = self.search(field.field_name, $input.val(), search_type, true, function() {
-                        $input.css('font-weight', 'bold')
-                    });
-                },
-                500
-            );
+			
+			if (!self.virtual_table) {
+				time_out = setTimeout(
+					function() {
+						let search_type = 'contains_all';
+						self.set_order_by(self.view_options.default_order);
+						self._search_params = self.search(field.field_name, $input.val(), search_type, true, function() {
+							$input.css('font-weight', 'bold')
+						});
+					},
+					500
+				);
+			}
+			
+			//new code for virtual tables search
+			else if (self.virtual_table) {
+				//let db_table = '.dbtable.' + self.item_name;
+				const filter_input = $input.val().toLowerCase();
+				var column_name = field.field_name,
+					$current_view = $('.' + self.item_name + '-view'),
+					$th_target = $current_view.find(".outer-table thead th[data-field_name='" + column_name + "']"),
+					target_index = $th_target.parent().children("th").index($th_target);
+
+				if (target_index !== -1) {
+					$current_view.find('.inner-table tr.inner').each(function() {
+						var cell = $(this).find("> td").eq(target_index);
+						var cell_text = cell.text().toLowerCase();
+						
+						$(this).toggle(cell_text.indexOf(filter_input) > -1);
+					});
+				} else {
+					console.error("Could not isolate header index for field:", column_name);
+				}
+			}
+			//new code for virtual tables search
         });
 
         $search_input.keyup(function(e) {

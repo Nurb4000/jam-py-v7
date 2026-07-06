@@ -12,6 +12,9 @@ https://jampy-docs-v7.readthedocs.io/en/latest/llms-full.txt
 and 
 https://jampy-docs-v7.readthedocs.io/en/latest/llms.txt
 
+## Chinese Demo:
+https://github.com/jam-py-v7/jampy-docs-v7-zh-cn
+
 All batteries included and event driven! What is EDA:
 
 "An event-driven framework, also known as event-driven architecture (EDA), is a design pattern where software components communicate and react to changes in state or events." Everything in Jam.py can be an event. Like a mouse click, or pressing CRTL+Ins, CTRL+Del or whatever is defined by you.
@@ -55,22 +58,8 @@ Live demos on PythonAnywhere:
   
 - [NorthWind Traders from MS Access template V7 (wip)](https://northwind.pythonanywhere.com/)
 
-
-- [DuckDB local parquet DB example](https://duckdb.pythonanywhere.com/)   
-- [The ERP POC Demo with Italian and English translations](https://sem.pythonanywhere.com)
-- [Sir Edward Elgar Discography from MS Access - or any discography](https://elgar.pythonanywhere.com/)
-- [Assets/Parts Application (wip, currently Jam V7 Demo)](https://jampy.pythonanywhere.com)
-- [Machine Learning (wip)](https://mlearning.pythonanywhere.com)
-- [Auto Parts Sales for Brazilian Market (Portuguese)](https://carparts.pythonanywhere.com)
-- [Resourcing and Billing Application from MS Access DB (wip)](https://resourcingandbilling.pythonanywhere.com)
-- [Job Positions tracking App from MS Access DB (wip)](https://positionstracking.pythonanywhere.com)
 - [Kanban/Tasks Application, V7](https://kanban.pythonanywhere.com)
-- [Assets Inventory Application, V7 (wip)](https://assetinventory.pythonanywhere.com)
 - [Google Authentication, V7](https://ipam2.pythonanywhere.com)
-- [IP Management V7 (wip)](https://ipmgmt.pythonanywhere.com)
-- [Sistema Integrado de Gestão - IMS for Brazilian Market (Portuguese)](https://imsmax.pythonanywhere.com)
-- [ Bills of Materials, sourced from  https://github.com/mpkasp/django-bom as no-code,  V7 (wip)](https://billsofmaterials.pythonanywhere.com)
-- [SAP Theme Demo](https://jampyapp.pythonanywhere.com)
 
 Jam.py alternative site:
 
