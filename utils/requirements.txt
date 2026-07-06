@@ -1,0 +1,13 @@
+# utils/requirements.txt
+pyinstaller
+uvicorn
+asgiref
+pyinstaller-hooks-contrib
+sqlalchemy
+build
+werkzeug
+esprima
+pyjsparser
+jsmin
+sqlparse
+standard-imghdr
