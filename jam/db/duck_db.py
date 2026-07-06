@@ -9,14 +9,12 @@ class SafeDuckDBConnection:
         return self._conn.cursor()
 
     def commit(self):
-        # no-op or safe
         try:
             self._conn.commit()
         except Exception:
             pass
 
     def rollback(self):
-        # critical fix
         try:
             self._conn.rollback()
         except Exception:
@@ -31,7 +29,7 @@ class SafeDuckDBConnection:
 class DuckDB(AbstractDB):
     def __init__(self):
         AbstractDB.__init__(self)
-        self.db_type = consts.DUCKDB
+        self.db_type = consts.DUCKDB 
         self.DDL_ROLLBACK = False
         self.IS_DISTINCT_FROM = 'NOT %s IS %s'
         self.FIELD_TYPES = {
@@ -48,8 +46,6 @@ class DuckDB(AbstractDB):
             consts.IMAGE: 'TEXT'
         }
 
-
-
     def get_params(self, lib):
         params = self.params
         params['name'] = 'DUCKDB'
@@ -59,15 +55,6 @@ class DuckDB(AbstractDB):
         if lib == 2:
             params['database'] = True
         return params
-
-    def duckdb_upper(self, value):
-        try:
-            return value.upper()
-        except:
-            return value
-
-
-
 
     def get_select(self, query, fields_clause, from_clause, where_clause, group_clause, order_clause, fields):
         start = fields_clause
@@ -80,25 +67,40 @@ class DuckDB(AbstractDB):
         return result
 
     def create_table(self, table_name, fields, gen_name=None, foreign_fields=None):
-        primary_key = ''
-        sql = 'CREATE TABLE "%s"\n(\n' % table_name
+        sql = ''
+        seq_name = gen_name if gen_name else '%s_id_seq' % table_name
+        
+        sql += 'CREATE SEQUENCE IF NOT EXISTS "%s" START 1;\n' % seq_name
+        sql += 'CREATE TABLE "%s"\n(\n' % table_name
         lines = []
         for field in fields:
             default_text = self.default_text(field)
-            line = '"%s" %s' % (field.field_name, self.FIELD_TYPES[field.data_type])
             if field.primary_key:
-                primary_key = field.field_name
-                line += ' PRIMARY KEY'
+                field_type = 'INTEGER PRIMARY KEY DEFAULT nextval(\'%s\')' % seq_name
+            else:
+                field_type = self.FIELD_TYPES[field.data_type]
+            line = '"%s" %s' % (field.field_name, field_type)
             if not default_text is None:
                 line += ' DEFAULT %s' % default_text
             lines.append(line)
-        if foreign_fields:
-            for field in foreign_fields:
-                lines.append('FOREIGN KEY(%s) REFERENCES %s(%s)\n' % \
-                    (field['key'], field['ref'], field['primary_key']))
         sql += ',\n'.join(lines)
-        sql += '\n)'
+        sql += ')\n'
         return sql
+
+    def insert_query(self, pk_field):
+        return 'INSERT INTO "%s" (%s) VALUES (%s) RETURNING ' + pk_field.db_field_name
+        
+    def next_sequence(self, gen_name):
+        return 'SELECT nextval(\'%s\')' % gen_name
+
+    def after_insert(self, cursor, pk_field):
+        if pk_field and not pk_field.data:
+            try:
+                row = cursor.fetchone()
+                if row:
+                    pk_field.data = row[0]
+            except Exception:
+                pass
 
     def add_field(self, table_name, field):
         default_text = self.default_text(field)
@@ -129,9 +131,8 @@ class DuckDB(AbstractDB):
     def drop_index(self, table_name, index_name):
         return 'DROP INDEX IF EXISTS "%s"' % index_name
 
-    def after_insert(self, cursor, pk_field):
-        if pk_field and not pk_field.data:
-            pk_field.data = cursor.lastrowid
+    def identifier_case(self, name):
+        return name.lower()
 
     def get_table_names(self, connection):
         cursor = connection.cursor()
@@ -155,5 +156,3 @@ class DuckDB(AbstractDB):
         return {'fields': fields, 'field_types': self.FIELD_TYPES}
 
 db = DuckDB()
-
-

@@ -1477,9 +1477,17 @@ function Events3() { // sys_items
 		else {
 			item.read_only = false;
 			if (item.rec_count && item.f_table_name && item.f_virtual_table) {
-				item.f_table_name.read_only = !item.is_new();
-				item.f_gen_name.read_only = !item.is_new();
 				item.f_virtual_table.read_only = !item.is_new();
+	
+				if (item.task._manual_update) {
+					item.f_table_name.read_only = false;
+					item.f_gen_name.read_only = false;
+					item.f_primary_key.read_only = false;
+				}   else {
+					item.f_table_name.read_only = !item.is_new();
+					item.f_gen_name.read_only = !item.is_new();
+					item.f_primary_key.read_only = !item.is_new();
+				}
 			}
 			if (item.f_soft_delete && item.f_deleted_flag) {
 				item.f_soft_delete.read_only = !item.f_deleted_flag.value;
@@ -1566,7 +1574,7 @@ function Events3() { // sys_items
 							height = 450;
 						}
 					}
-					if (item.id.value) {
+					if (item.id.value && !item.task._manual_update) {
 						update_sys_fields_read_only(item, true);
 					}
 					else {
