@@ -99,5 +99,6 @@ if __name__ == "__main__":
         host=host,
         port=port,
         log_level=log_level,
-        access_log=debug
+        access_log=debug,
+        lifespan="off"
     )
