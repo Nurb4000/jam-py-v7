@@ -1,5 +1,4 @@
 import cx_Oracle
-#from werkzeug._compat import text_type, to_bytes, to_unicode
 
 from ..common import consts
 from .db import AbstractDB
@@ -79,7 +78,7 @@ class OracleDB(AbstractDB):
             for field in row:
                 if isinstance(field, cx_Oracle.LOB):
                     field = field.read()
-                    #field = to_unicode(field, 'utf-8')
+                    field = str(field, 'utf-8')
                 fields.append(field)
             result.append(fields)
         return result

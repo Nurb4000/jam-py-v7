@@ -1,7 +1,5 @@
 import fdb
 
-from werkzeug._compat import text_type, to_bytes, to_unicode
-
 from ..common import consts
 from .db import AbstractDB
 
@@ -58,8 +56,8 @@ class FirebirdDB(AbstractDB):
             if type(p) == tuple:
                 value, data_type = p
                 if data_type in [consts.LONGTEXT, consts.KEYS]:
-                    if type(value) == text_type:
-                        value = to_bytes(value, 'utf-8')
+                    if type(value) == str:
+                        value = bytes(value, 'utf-8')
             else:
                 value = p
             result.append(value)
@@ -71,9 +69,9 @@ class FirebirdDB(AbstractDB):
             new_row = []
             for r in row:
                 if isinstance(r, fdb.fbcore.BlobReader):
-                    r = to_unicode(r.read(), 'utf-8')
+                    r = str(r.read(), 'utf-8')
                 elif type(r) == bytes:
-                    r = to_unicode(r, 'utf-8')
+                    r = str(r, 'utf-8')
                 new_row.append(r)
             result.append(new_row)
         return result
