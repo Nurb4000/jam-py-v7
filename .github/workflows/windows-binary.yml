@@ -71,7 +71,7 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
       with:
-        files: demo/jampy-x86-64-windows.zip
+        files: demo/dist/jampy_windows_x86_64/
         generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
