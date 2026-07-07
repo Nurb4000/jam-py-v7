@@ -89,4 +89,4 @@ jobs:
         with:
           tag_name: ${{ github.event.inputs.version }}
           name: Release ${{ github.event.inputs.version }}
-          files: jampy-windows-x86-64.zip
+          files: demo/dist/jampy_windows_x86_64/*
