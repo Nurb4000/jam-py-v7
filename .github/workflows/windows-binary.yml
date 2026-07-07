@@ -83,10 +83,17 @@ jobs:
         with:
           merge-multiple: true
 
+      - name: Debug - List downloaded files
+        run: |
+          echo "Contents of current directory:"
+          ls -la
+          echo "Looking for ZIP files:"
+          ls -la *.zip || echo "No ZIP files found"
+
       - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.version }}
           name: Release ${{ github.event.inputs.version }}
-          files: jampy-x86-64-windows.zip
+          files: jampy-x86-64-windows
