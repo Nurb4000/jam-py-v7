@@ -67,11 +67,23 @@ jobs:
         path: demo/dist/jampy_windows_x86_64/*
         
 
-    - name: Upload to Release (ONLY when tagging - ANY tag)
+#    - name: Upload to Release (ONLY when tagging - ANY tag)
+#      if: startsWith(github.ref, 'refs/tags/')
+#      uses: softprops/action-gh-release@v1
+#      with:
+#        files: demo/dist/jampy-x86-64-windows.zip
+#        generate_release_notes: true
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload artifact signatures to GitHub Release
       if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v1
-      with:
-        files: demo/dist/jampy-x86-64-windows.zip
-        generate_release_notes: true
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ github.token }}
+      # Upload to GitHub Release using the `gh` CLI.
+      # `dist/` contains the built packages, and the
+      # sigstore-produced signatures and certificates.
+      run: >-
+        gh release upload
+        '${{ github.ref_name }}' dist/**
+        --repo '${{ github.repository }}'
