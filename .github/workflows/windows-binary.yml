@@ -7,6 +7,10 @@ on:
       - '*'
   workflow_dispatch:
 
+permissions:
+  contents: write  # IMPORTANT: mandatory for making GitHub Releases
+  id-token: write  # IMPORTANT: mandatory for sigstore
+
 jobs:
   build:
     name: Build on ${{ matrix.os }}
