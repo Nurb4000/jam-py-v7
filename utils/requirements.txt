@@ -11,3 +11,8 @@ pyjsparser
 jsmin
 sqlparse
 standard-imghdr
+databricks-sql-connector
+psycopg2
+mysql-connector
+pymssql 
+duckdb
