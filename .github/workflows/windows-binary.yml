@@ -67,28 +67,20 @@ jobs:
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: jampy-x86-64-windows
-        path: demo/dist/jampy_windows_x86_64/*   
+        name: jampy-windows-x86-64
+        path: demo/dist/jampy_windows_x86_64/*
 
-  release:
-    needs: build
-    runs-on: ubuntu-latest
+    - name: Create ZIP package
+      if: startsWith(github.ref, 'refs/tags/')
+      shell: powershell
+      run: |
+        Compress-Archive `
+          -Path demo/dist/jampy_windows_x86_64/* `
+          -DestinationPath jampy_windows_x86_64.zip
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Download all build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          merge-multiple: true
-
-      - name: Create GitHub Release
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.event.inputs.version }}
-          name: Release ${{ github.event.inputs.version }}
-          files: |
-            jampy_windows_x86_64.exe
-            _internal/**
+    - name: Create GitHub Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v2
+      with:
+        files: jampy_windows_x86_64.zip
+        generate_release_notes: true
