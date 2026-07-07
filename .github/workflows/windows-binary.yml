@@ -78,9 +78,15 @@ jobs:
           -Path demo/dist/jampy_windows_x86_64/* `
           -DestinationPath jampy_windows_x86_64.zip
 
-    - name: Create GitHub Release
+#    - name: Create GitHub Release
+#      if: startsWith(github.ref, 'refs/tags/')
+#      uses: softprops/action-gh-release@v2
+#      with:
+#        files: jampy_windows_x86_64.zip
+#        generate_release_notes: true
+
+    - name: Upload Release Asset
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v2
       with:
         files: jampy_windows_x86_64.zip
-        generate_release_notes: true
