@@ -18,6 +18,12 @@ def get_database(app, db_type, lib):
         from .firebird_db import db
     elif db_type == consts.ORACLE:
         from .oracle_db import db
+        if lib == 1:
+            from .oracle_db1 import db
+        elif lib == 2:
+            from .oracle_db2 import db
+        else:
+            from .oracle_db import db
     elif db_type == consts.MSSQL:
         if lib == 1:
             from .mssql_db1 import db

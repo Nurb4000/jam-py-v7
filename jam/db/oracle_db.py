@@ -30,7 +30,7 @@ class OracleDB(AbstractDB):
     def get_params(self, lib):
         params = self.params
         params['name'] = 'ORACLE'
-        params['lib'] = ['cx_oracle', 'oracledb']
+        params['lib'] = ['oracledb', 'cx_oracle']
         params['dsn'] = True
         params['login'] = True
         params['password'] = True
