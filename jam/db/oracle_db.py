@@ -1,5 +1,3 @@
-import cx_Oracle
-
 from ..common import consts
 from .db import AbstractDB
 
