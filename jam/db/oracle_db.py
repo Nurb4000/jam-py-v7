@@ -29,6 +29,12 @@ class OracleDB(AbstractDB):
         params = self.params
         params['name'] = 'ORACLE'
         params['lib'] = ['oracledb', 'cx_oracle']
+        if lib == 2:
+            params['dsn'] = True
+            params['database'] = True
+        else:
+            params['dsn'] = True
+            params['database'] = False
         params['dsn'] = True
         params['login'] = True
         params['password'] = True

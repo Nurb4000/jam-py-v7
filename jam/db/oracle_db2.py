@@ -9,8 +9,8 @@ class OracleDB2(AbstractDB):
 
     def connect(self, db_info):
         if db_info.dsn:
-            return cx_Oracle.connect(dsn=db_info.dsn)
-        else:
             return cx_Oracle.connect(user=db_info.user, password=db_info.password, dsn=db_info.database)
+        else:
+            return cx_Oracle.connect(dsn=db_info.dsn)            
 
 db = OracleDB2()
