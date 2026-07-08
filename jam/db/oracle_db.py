@@ -30,16 +30,11 @@ class OracleDB(AbstractDB):
     def get_params(self, lib):
         params = self.params
         params['name'] = 'ORACLE'
+        params['lib'] = ['cx_oracle', 'oracledb']
         params['dsn'] = True
         params['login'] = True
         params['password'] = True
         return params
-
-    def connect(self, db_info):
-        if db_info.dsn:
-            return cx_Oracle.connect(dsn=db_info.dsn)
-        else:
-            return cx_Oracle.connect(user=db_info.user, password=db_info.password, dsn=db_info.database)
 
     def get_fields(self, query, fields, alias):
         sql = ''
