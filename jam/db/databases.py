@@ -39,6 +39,8 @@ def get_database(app, db_type, lib):
             from .duck_db2 import db
         else:
             from .duck_db import db
+    elif db_type == consts.DATABRICKS:
+        from .databricks_db import db
     if db:
         db.app = app
     return db
