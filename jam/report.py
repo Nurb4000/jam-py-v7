@@ -146,18 +146,32 @@ class Report(object):
                 manifest_data = manifest_data.replace(old_line, new_lines, 1)
         return manifest_data
 
+#    def convert_report(self):
+#        converted = False
+#        if self.on_convert:
+#            converted = self.on_convert(self)
+#        else:
+#            converted = self.convert()
+#        if converted:
+#            converted_file_name = self.report_filename.replace('.ods', self.ext)
+#            if os.path.exists(converted_file_name):
+#                os.remove(self.report_filename)
+#                self.report_filename = converted_file_name
+#                self.report_url = self.report_url.replace('.ods', self.ext)
+
     def convert_report(self):
         converted = False
-        if self.on_convert:
-            converted = self.on_convert(self)
+        # Call user's on_convert_report
+        if hasattr(self, 'on_convert_report') and self.on_convert_report:
+            try:
+                result = self.on_convert_report(self)
+                if result is True:
+                    return True
+            except Exception as e:
+                print(f"on_convert_report error: {e}")
         else:
-            converted = self.convert()
-        if converted:
-            converted_file_name = self.report_filename.replace('.ods', self.ext)
-            if os.path.exists(converted_file_name):
-                os.remove(self.report_filename)
-                self.report_filename = converted_file_name
-                self.report_url = self.report_url.replace('.ods', self.ext)
+            print("No on_convert_report found")
+
 
     def convert(self):
         with self.task.lock('$report_conversion'):
