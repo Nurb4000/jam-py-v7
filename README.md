@@ -3,9 +3,6 @@
 
 
 ## Jam.py is a web front-end application generator that works with both existing databases and newly created ones. 
-## With Monaco editor and Databricks support!
-
-## This is forked jam.py to continue the support and development, since Andrew retired from jam.py project. The v7 is now fully released. Please find v5 master branch archive in here: https://github.com/jam-py-v5/jam-py/ 
 
 ## The LLMS-full.txt is released: 
 https://jampy-docs-v7.readthedocs.io/en/latest/llms-full.txt 
@@ -33,6 +30,12 @@ Hope this sparked some interest! Thank you.
 pip install jam.py-v7
 jam-project.py
 server.py
+```
+
+For Windows users, find jampy_windows_x86_64.zip in releases, unzip and run (or double click):
+
+```
+C:\jampy_windows_x86_64>jampy_windows_x86_64.exe
 ```
 
 
