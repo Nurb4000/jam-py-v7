@@ -19,7 +19,7 @@ jam-project.py
 server.py
 ```
 
-For Windows users and **zero Demo** install, find jampy_windows_x86_64.zip in releases, unzip and run (or double click):
+For Windows users and **Demo** preview, find jampy_windows_x86_64.zip in releases, unzip and run (or double click):
 
 ```
 C:\jampy_windows_x86_64>jampy_windows_x86_64.exe
