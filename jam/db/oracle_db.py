@@ -75,7 +75,7 @@ class OracleDB(AbstractDB):
         for row in rows:
             fields = []
             for field in row:
-                if isinstance(field, cx_Oracle.LOB):
+                if field is not None and 'LOB' in field.__class__.__name__:
                     field = field.read()
                     field = str(field, 'utf-8')
                 fields.append(field)
