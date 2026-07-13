@@ -4,12 +4,13 @@
 
 ## With Jam.py, build business software - not technology stacks.
 
-Jam.py lets a single developer build an entire business application 
+Jam.py lets a single developer build an entire [business](https://northwind.pythonanywhere.com/) application 
 without having a complex web technology stack. It does that due to:
 
 1. A full developer framework, not only a low-code tool. 
 2. Deployment model is simple. Suitable even for Windows or offline / air-gapped networks.
 3. Modern application layer suitable to modernize existing systems without rebuilding everything.
+4. Runs accross desktop browsers and mobile devices while keeping a single application codebase.
 
 
 ## Installation and Launch
