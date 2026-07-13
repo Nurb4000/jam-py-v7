@@ -30,8 +30,6 @@ https://jampy-docs-v7.readthedocs.io/en/latest/llms-full.txt
 and topics only:
 https://jampy-docs-v7.readthedocs.io/en/latest/llms.txt
 
-## Chinese Demo:
-https://github.com/jam-py-v7/jampy-docs-v7-zh-cn
 
 [![alt text](https://github.com/jam-py-v5/jam-py-v7/blob/develop/assets/images/JAMPY_Readme.gif?raw=true)](https://northwind.pythonanywhere.com)
 
@@ -107,6 +105,11 @@ the client utilizes [JavaScript](https://developer.mozilla.org/en/docs/Web/JavaS
   project parameters and code) in a file that can be loaded by another
   application to apply all the changes.
 
+
+## Chinese Demo:
+https://github.com/jam-py-v7/jampy-docs-v7-zh-cn
+
+
 ## Documentation
 
 
@@ -127,8 +130,7 @@ new project.
 
 Jam.py application design tips are at https://jampy-application-design-tips.readthedocs.io/
 
-For general discussion, ideas or similar, please visit mailgroup https://groups.google.com/g/jam-py or
-FB page https://www.facebook.com/groups/jam.py/ (paused atm)
+For general discussion, ideas or similar, please visit mailgroup https://groups.google.com/g/jam-py
 
 ## Sponsor
 
