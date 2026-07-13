@@ -2,7 +2,22 @@
 [![Package on PyPI](https://img.shields.io/pypi/v/jam.py-v7.svg)](https://pypi.org/project/jam.py-v7) ![Supported Python versions](https://img.shields.io/pypi/pyversions/python3-saml.svg) [![Documentation Status](https://readthedocs.org/projects/jampy-docs-v7/badge/)](https://jampy-docs-v7.readthedocs.io) [![Downloads](https://static.pepy.tech/badge/jam.py-v7)](http://pepy.tech/project/jam.py-v7)
 
 
-## Jam.py is a web front-end application generator that works with both existing databases and newly created ones. 
+## With Jam.py, build business software - not Web frontends.
+
+Jam.py lets a single developer build an entire business application. 
+
+Today, most teams expect you to know:
+
+  - Python/Rust at.al,
+  - JavaScript/TypeScript,
+  - React/Vue at.al,
+  - REST or GraphQL,
+  - authentication,
+  - CSS frameworks,
+  - frontend tooling,
+  - deployment pipelines.
+
+**Jam.py removes much of that complexity.**
 
 ## The LLMS-full.txt is released: 
 https://jampy-docs-v7.readthedocs.io/en/latest/llms-full.txt 
@@ -12,19 +27,6 @@ https://jampy-docs-v7.readthedocs.io/en/latest/llms.txt
 ## Chinese Demo:
 https://github.com/jam-py-v7/jampy-docs-v7-zh-cn
 
-All batteries included and event driven! What is EDA:
-
-"An event-driven framework, also known as event-driven architecture (EDA), is a design pattern where software components communicate and react to changes in state or events." Everything in Jam.py can be an event. Like a mouse click, or pressing CRTL+Ins, CTRL+Del or whatever is defined by you.
-
-Major difference from other products is that the entire application is contained within a **single SQLite3 file**. And it can be **encrypted**! 
-
-Another key distinction is the ability to run **any Python procedure directly within the Application Builder as a back-end** - including popular libraries like Matplotlib, Pandas, and NumPy - with the results displayed in the browser. Python procedure can run **synchronously** or **asynchronously** on the server. 
-
-More over, using **Import tables** feature from any supported database is providing **instant web front-end**. There's no need to code anything and **authentication is one click away**! 
-
-Hope this sparked some interest! Thank you.
-
-
 ## Installation and Launch
 ```
 pip install jam.py-v7
@@ -32,11 +34,12 @@ jam-project.py
 server.py
 ```
 
-For Windows users and zero install, find jampy_windows_x86_64.zip in releases, unzip and run (or double click):
+For Windows users and **zero Demo** install, find jampy_windows_x86_64.zip in releases, unzip and run (or double click):
 
 ```
 C:\jampy_windows_x86_64>jampy_windows_x86_64.exe
 ```
+
 
 
 [![alt text](https://github.com/jam-py-v5/jam-py-v7/blob/develop/assets/images/JAMPY_Readme.gif?raw=true)](https://northwind.pythonanywhere.com)
