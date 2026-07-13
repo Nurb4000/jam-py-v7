@@ -6,26 +6,12 @@
 
 Jam.py lets a single developer build an entire business application. 
 
-Today, most teams expect you to know:
+**Jam.py removes much of current technology complexity due to:**
 
-  - Python/Rust at.al,
-  - JavaScript/TypeScript,
-  - React/Vue at.al,
-  - REST or GraphQL,
-  - authentication,
-  - CSS frameworks,
-  - frontend tooling,
-  - deployment pipelines.
+1. Jam.py is a developer framework, not only a low-code tool. 
+2. Deployment model is simple. Suitable even for offline / controlled environments / air-gapped.
+3. Existing processes/application? Add modern application without rebuilding everything.
 
-**Jam.py removes much of that complexity.**
-
-## The LLMS-full.txt is released: 
-https://jampy-docs-v7.readthedocs.io/en/latest/llms-full.txt 
-and 
-https://jampy-docs-v7.readthedocs.io/en/latest/llms.txt
-
-## Chinese Demo:
-https://github.com/jam-py-v7/jampy-docs-v7-zh-cn
 
 ## Installation and Launch
 ```
@@ -40,7 +26,13 @@ For Windows users and **zero Demo** install, find jampy_windows_x86_64.zip in re
 C:\jampy_windows_x86_64>jampy_windows_x86_64.exe
 ```
 
+## The LLMS-full.txt: 
+https://jampy-docs-v7.readthedocs.io/en/latest/llms-full.txt 
+and topics only:
+https://jampy-docs-v7.readthedocs.io/en/latest/llms.txt
 
+## Chinese Demo:
+https://github.com/jam-py-v7/jampy-docs-v7-zh-cn
 
 [![alt text](https://github.com/jam-py-v5/jam-py-v7/blob/develop/assets/images/JAMPY_Readme.gif?raw=true)](https://northwind.pythonanywhere.com)
 
@@ -73,6 +65,8 @@ https://jampyapplicationbuilder.com/
 
 
 ## Main features
+
+
 
 Jam.py is an object oriented, event driven framework with hierarchical structure, modular design
 and very tight DB/GUI coupling. The server side of Jam.py is written in [Python](https://www.python.org),
