@@ -2,15 +2,14 @@
 [![Package on PyPI](https://img.shields.io/pypi/v/jam.py-v7.svg)](https://pypi.org/project/jam.py-v7) ![Supported Python versions](https://img.shields.io/pypi/pyversions/python3-saml.svg) [![Documentation Status](https://readthedocs.org/projects/jampy-docs-v7/badge/)](https://jampy-docs-v7.readthedocs.io) [![Downloads](https://static.pepy.tech/badge/jam.py-v7)](http://pepy.tech/project/jam.py-v7)
 
 
-## With Jam.py, build business software - not Web frontends.
+## With Jam.py, build business software - not technology stacks.
 
-Jam.py lets a single developer build an entire business application. 
+Jam.py lets a single developer build an entire business application 
+without having a complex web technology stack. It does that due to:
 
-**Jam.py removes much of current technology complexity due to:**
-
-1. Jam.py is a developer framework, not only a low-code tool. 
-2. Deployment model is simple. Suitable even for offline / controlled environments / air-gapped.
-3. Existing processes/application? Add modern application without rebuilding everything.
+1. A full developer framework, not only a low-code tool. 
+2. Deployment model is simple. Suitable even for Windows or offline / air-gapped networks.
+3. Modern application layer suitable to modernize existing systems without rebuilding everything.
 
 
 ## Installation and Launch
