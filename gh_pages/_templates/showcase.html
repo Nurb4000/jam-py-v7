@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Showcase | Jam.py V7 Framework</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-gradient { background: radial-gradient(circle at top right, #1e293b, #0f172a); }
+        .glow-card { position: relative; }
+        .glow-card::before {
+            content: ''; position: absolute; inset: -2px; background: linear-gradient(45deg, #3b82f6, #10b981);
+            border-radius: 24px; z-index: -1; opacity: 0; transition: opacity 0.3s ease;
+        }
+        .glow-card:hover::before { opacity: 0.15; }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-900">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-sm border-b border-slate-800 py-4 px-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-2xl font-bold text-white tracking-tight">🚀 Jam.py <span class="text-blue-500">V7</span></a>
+            </div>
+            <div class="hidden md:flex space-x-8 text-slate-300 font-medium">
+                <a href="index.html" class="hover:text-blue-400 transition">Home</a>
+                <a href="features.html" class="hover:text-blue-400 transition">Features</a>
+                <a href="showcase.html" class="text-blue-400 transition">Showcase</a>
+            </div>
+            <div>
+                <a href="https://github.com/jam-py-v5/jam-py-v7" target="_blank" class="bg-amber-400 hover:bg-amber-500 text-slate-900 px-4 py-2 rounded-lg font-bold flex items-center transition shadow-lg">
+                    <i class="fab fa-github mr-2"></i> ⭐ Star V7
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sub-Hero Header -->
+    <header class="hero-gradient text-white py-16 px-6 text-center border-b border-slate-800">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">Application Showcase</h1>
+            <p class="text-lg text-slate-400">See real-world production business systems built using the Jam.py low-code stack.[cite: 1]</p>
+        </div>
+    </header>
+
+    <!-- Showcase Projects Grid -->
+    <section class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+            
+            <!-- Project 1 -->
+            <div class="glow-card bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden flex flex-col justify-between transition duration-300 hover:shadow-md">
+                <div>
+                    <!-- Visual Terminal Placeholder for Screenshot -->
+                    <div class="bg-slate-800 aspect-video w-full flex flex-col justify-between p-4 text-slate-500 font-mono text-xs border-b border-slate-100">
+                        <div class="flex justify-between items-center text-[10px] text-slate-400 uppercase tracking-wider">
+                            <span>Inventory Master</span>
+                            <span class="text-emerald-400">● Online</span>
+                        </div>
+                        <div class="text-center text-slate-400 py-6">
+                            <i class="fas fa-table-cells text-3xl text-blue-500/40 mb-2 block"></i>
+                            [ Admin UI Grid Preview ]
+                        </div>
+                        <div class="text-right text-[9px] text-slate-600">Jam.py Engine v7.0</div>
+                    </div>
+                    <div class="p-8">
+                        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded-full font-semibold uppercase tracking-wider mb-3">Internal Tools</span>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Enterprise Admin Panels</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">A complex inventory management hub operating on over 50 interconnected tables with dynamic validation triggers. Built from schema definitions in under 2 hours.[cite: 1]</p>
+                    </div>
+                </div>
+                <div class="px-8 pb-8 pt-4 border-t border-slate-50 flex items-center justify-between text-xs font-semibold text-slate-400">
+                    <span>Database: PostgreSQL</span>
+                    <span class="text-blue-600">CRUD Generated</span>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="glow-card bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden flex flex-col justify-between transition duration-300 hover:shadow-md">
+                <div>
+                    <div class="bg-slate-900 aspect-video w-full flex flex-col justify-between p-4 text-slate-500 font-mono text-xs border-b border-slate-100">
+                        <div class="flex justify-between items-center text-[10px] text-slate-400 uppercase tracking-wider">
+                            <span>SQL Analytics Portal</span>
+                            <span class="text-emerald-400">● Live Data</span>
+                        </div>
+                        <div class="text-center text-slate-400 py-6">
+                            <i class="fas fa-chart-line text-3xl text-emerald-500/40 mb-2 block"></i>
+                            [ BI Analytics Interface ]
+                        </div>
+                        <div class="text-right text-[9px] text-slate-600">Frappe Insights Connected</div>
+                    </div>
+                    <div class="p-8">
+                        <span class="inline-block bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full font-semibold uppercase tracking-wider mb-3">Analytics</span>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">BI Dataviz Portals</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">Connecting transactional databases instantly to reporting pipelines. Featuring active data aggregations, interactive query sorting, and Bootstrap 5 layouts.[cite: 1]</p>
+                    </div>
+                </div>
+                <div class="px-8 pb-8 pt-4 border-t border-slate-50 flex items-center justify-between text-xs font-semibold text-slate-400">
+                    <span>Database: MySQL / SQLite</span>
+                    <span class="text-emerald-600">Charts Ready</span>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="glow-card bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden flex flex-col justify-between transition duration-300 hover:shadow-md">
+                <div>
+                    <div class="bg-slate-950 aspect-video w-full flex flex-col justify-between p-4 text-slate-500 font-mono text-xs border-b border-slate-100">
+                        <div class="flex justify-between items-center text-[10px] text-slate-400 uppercase tracking-wider">
+                            <span>LLM Dataset Sync</span>
+                            <span class="text-amber-400">● AI Ready</span>
+                        </div>
+                        <div class="text-center text-slate-400 py-6">
+                            <i class="fas fa-robot text-3xl text-cyan-500/40 mb-2 block"></i>
+                            [ AI Agent Ingestion Node ]
+                        </div>
+                        <div class="text-right text-[9px] text-slate-600">Metadata Context Export</div>
+                    </div>
+                    <div class="p-8">
+                        <span class="inline-block bg-cyan-100 text-cyan-800 text-xs px-2.5 py-1 rounded-full font-semibold uppercase tracking-wider mb-3">AI Workflows</span>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">LLM Dataset Hubs</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">Data tagging and ingestion tools built to fuel deep-learning models. Uses Jam.py security architecture to cleanly split access between humans and automation.[cite: 1]</p>
+                    </div>
+                </div>
+                <div class="px-8 pb-8 pt-4 border-t border-slate-50 flex items-center justify-between text-xs font-semibold text-slate-400">
+                    <span>Database: MSSQL</span>
+                    <span class="text-cyan-600">Context Active</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Ultimate Closing Star CTA -->
+    <section class="py-24 px-6 text-center max-w-4xl mx-auto border-t border-slate-200">
+        <h2 class="text-4xl font-extrabold mb-6 text-slate-900 tracking-tight">Ready to deploy your own showcase?[cite: 1]</h2>
+        <p class="text-lg text-slate-600 mb-12 leading-relaxed">
+            Jam.py V7 provides the foundation. Your data provides the structure. Give us a star and join our newly structured GitHub organization account today![cite: 1]
+        </p>
+        <div class="bg-gradient-to-r from-amber-400 to-amber-300 p-1 rounded-3xl shadow-xl max-w-2xl mx-auto transform hover:scale-[1.02] transition duration-300">
+            <div class="bg-slate-900 text-white p-10 rounded-[22px]">
+                <h3 class="text-2xl font-bold mb-4">Target: 1,000 Stars for V7 🚀</h3>
+                <p class="text-sm text-slate-400 mb-8 max-w-md mx-auto">Be part of the new era. Help us push open-source Python rapid development forward.</p>
+                <a href="https://github.com/jam-py-v5/jam-py-v7" target="_blank" class="bg-amber-400 hover:bg-amber-500 text-slate-900 px-8 py-4 rounded-xl font-black text-lg transition-colors shadow-lg inline-flex items-center">
+                    <i class="fab fa-github mr-3 text-xl"></i> Click to Star on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white py-12 text-center text-slate-500 text-sm border-t border-slate-200">
+        <p>© 2026 Jam.py Framework. Maintainers & Community.[cite: 1]</p>
+    </footer>
+</body>
+</html>

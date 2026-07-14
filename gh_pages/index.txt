@@ -1,0 +1,140 @@
+{% extends "!layout.html" %}
+
+{% block extrahead %}
+{{ super() }}
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-gradient { background: radial-gradient(circle at top right, #1e293b, #0f172a); }
+        .feature-card:hover { box-shadow: 0 0 25px rgba(59, 130, 246, 0.15); }
+    </style>
+
+{% endblock %}
+
+{% block body %}
+
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-sm border-b border-slate-800 py-4 px-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-2xl font-bold text-white tracking-tight">🚀 Jam.py <span class="text-blue-500">V7</span></a>
+            </div>
+            <div class="hidden md:flex space-x-8 text-slate-300 font-medium">
+                <a href="index.html" class="hover:text-blue-400 transition">Home</a>
+                <a href="features.html" class="text-blue-400 transition">Features</a>
+                <a href="showcase.html" class="hover:text-blue-400 transition">Showcase</a>
+            </div>
+            <div>
+                <a href="https://github.com/jam-py-v5/jam-py-v7" target="_blank" class="bg-amber-400 hover:bg-amber-500 text-slate-900 px-4 py-2 rounded-lg font-bold flex items-center transition shadow-lg">
+                    <i class="fab fa-github mr-2"></i> ⭐ Star V7
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sub-Hero Header -->
+    <header class="hero-gradient text-white py-16 px-6 text-center border-b border-slate-800">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">Framework Core Features</h1>
+            <p class="text-lg text-slate-400">Discover the engineering power behind the fastest Python database application builder.</p>
+        </div>
+    </header>
+
+    <!-- Deep-Dive Features Grid -->
+    <section class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Feature 1 -->
+            <div class="feature-card p-8 bg-white rounded-2xl border border-slate-200 transition duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-blue-500/10 text-blue-600 rounded-xl flex items-center justify-center mb-6 text-xl">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900">Instant CRUD & Forms</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Stop writing boilerplate HTML for data grids. Jam.py inspects your database catalogs and generates forms, custom layouts, and input validation on the fly.</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-mono text-slate-400">UI Automation</div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-card p-8 bg-white rounded-2xl border border-slate-200 transition duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-emerald-500/10 text-emerald-600 rounded-xl flex items-center justify-center mb-6 text-xl">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900">Enterprise-grade RBAC</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Role-Based Access Control is native. Define complex user roles and enforce precise permissions down to the individual field or database column level.</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-mono text-slate-400">Security Built-in</div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-card p-8 bg-white rounded-2xl border border-slate-200 transition duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-amber-500/10 text-amber-600 rounded-xl flex items-center justify-center mb-6 text-xl">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900">Hybrid Logic Engine</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Enjoy coding without limits. Write secure backend controllers using clean Python, and link them with reactive frontend behaviors driven by vanilla JS.</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-mono text-slate-400">Full-Stack Freedom</div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="feature-card p-8 bg-white rounded-2xl border border-slate-200 transition duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-indigo-500/10 text-indigo-600 rounded-xl flex items-center justify-center mb-6 text-xl">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900">Task Scheduler</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Automate backend jobs, system reporting, and synchronization procedures without relying on brittle crontabs or external microservices.[cite: 1]</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-mono text-slate-400">Automation Engine</div>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="feature-card p-8 bg-white rounded-2xl border border-slate-200 transition duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-rose-500/10 text-rose-600 rounded-xl flex items-center justify-center mb-6 text-xl">
+                        <i class="fas fa-mobile-screen"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900">Bootstrap 5 Themes</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Jam.py V7 outputs semantic, beautiful HTML structures powered by Bootstrap 5. Enjoy responsive design layouts that function reliably on phone touchscreens.[cite: 1]</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-mono text-slate-400">Responsive UI</div>
+            </div>
+
+            <!-- Feature 6 -->
+            <div class="feature-card p-8 bg-white rounded-2xl border border-slate-200 transition duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-cyan-500/10 text-cyan-600 rounded-xl flex items-center justify-center mb-6 text-xl">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900">AI & LLM Ready Context</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">V7 exports standardized application metadata mapping schemas. This allows you to plug the application context directly into LLMs or custom AI assistance frameworks.[cite: 1]</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 text-xs font-mono text-slate-400">AI Agent Friendly</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Mid-Page Star Conversion Box -->
+    <section class="py-12 bg-slate-900 text-white border-t border-slate-800 text-center px-6">
+        <div class="max-w-3xl mx-auto bg-amber-400/10 border border-amber-400/30 p-8 rounded-3xl backdrop-blur-sm">
+            <h4 class="text-2xl font-bold text-amber-400 mb-2">Like these architectural choices?</h4>
+            <p class="text-slate-400 text-sm mb-6">Help us support sustainable development by starring our main branch.[cite: 1]</p>
+            <a href="https://github.com/jam-py-v5/jam-py-v7" target="_blank" class="bg-amber-400 hover:bg-amber-500 text-slate-900 px-6 py-3 rounded-xl font-bold transition inline-flex items-center">
+                <i class="fab fa-github mr-2"></i> Star on GitHub
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-white py-8 text-center text-slate-500 text-sm border-t border-slate-200">
+        <p>© 2026 Jam.py Framework. Maintainers & Community.[cite: 1]</p>
+    </footer>
+
+{% endblock %}
