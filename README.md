@@ -32,10 +32,10 @@ and topics only:
 https://jampy-docs-v7.readthedocs.io/en/latest/llms.txt
 
 
-[(https://github.com/jam-py-v5/jam-py-v7/blob/develop/assets/images/JAMPY_Readme.gif?raw=true)]
+[![alt text](https://github.com/jam-py-v5/jam-py-v7/blob/develop/assets/images/JAMPY_Readme.gif?raw=true)](application)
 
 Builder animation:
-[(https://github.com/jam-py-v5/jam-py-v7/blob/develop/assets/images/builder_animation.gif?raw=true)]
+[![alt text](https://github.com/jam-py-v5/jam-py-v7/blob/develop/assets/images/builder_animation.gif?raw=true)](application Builder)
 
 Some short videos about how to setup Jam.py and create applications:
 
