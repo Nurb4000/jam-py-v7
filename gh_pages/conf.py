@@ -1,5 +1,5 @@
 html_additional_pages = {
-    'index': 'features.html',
+    'index': 'index.html',
     'showcase': 'showcase.html',
     'features': 'features.html',
 }
