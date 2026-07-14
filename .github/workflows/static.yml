@@ -3,7 +3,7 @@ name: Deploy static pages to Pages
 on:
   push:
     branches:
-      - main # or your default branch name
+      - develop # or your default branch name
 
 jobs:
   pages:
