@@ -74,8 +74,8 @@ class Consts(object):
         'D_FMT': '%Y-%m-%d',
         'D_T_FMT': '%Y-%m-%d %H:%M:%S'
     }
-    SQLITE, FIREBIRD, POSTGRESQL, MYSQL, ORACLE, MSSQL, DATABRICKS, DUCKDB = range(1, 9)
-    DB_TYPE = ('Sqlite', 'FireBird', 'PostgreSQL', 'MySQL', 'Oracle', 'MSSQL', 'Databricks', 'Duckdb')
+    SQLITE, FIREBIRD, POSTGRESQL, MYSQL, ORACLE, MSSQL, DATABRICKS, DUCKDB, SQLCIPHER = range(1, 10)
+    DB_TYPE = ('Sqlite', 'FireBird', 'PostgreSQL', 'MySQL', 'Oracle', 'MSSQL', 'Databricks', 'Duckdb', 'SqlCipher')
     THEMES = ('Bootstrap', 'Cerulean', 'Quartz', 'Flatly', 'Journal',
         'Darkly', 'United', 'Cosmo', 'Materia', 'Morph', 'Zephyr', 'Lumen', 'Litera', 'Vapor','Sandstone', 'Cyborg','Slate', 'Solar', 'Superhero', 'Yeti')
     THEME_FILE = ('', 'bootstrap.css', 'bootstrap-cerulean.css', 'bootstrap-quartz.css', 'bootstrap-flatly.css', 
