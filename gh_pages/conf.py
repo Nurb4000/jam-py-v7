@@ -2,6 +2,7 @@ html_additional_pages = {
     'index': 'index.html',
     'showcase': 'showcase.html',
     'features': 'features.html',
+    'stories': 'stories.html',
 }
 templates_path = ['_templates']
 source_suffix = ['.txt']
