@@ -1,9 +1,9 @@
-import sqlite3
+from sqlcipher3 import dbapi2 as sqlite
 
 from ..common import consts
 from .db import AbstractDB
 
-class SQLiteDB(AbstractDB):
+class SQLiteCipherDB(AbstractDB):
     def __init__(self):
         AbstractDB.__init__(self)
         self.db_type = consts.SQLITE
@@ -24,7 +24,8 @@ class SQLiteDB(AbstractDB):
 
     def get_params(self, lib):
         params = self.params
-        params['name'] = 'SQLITE'
+        params['name'] = 'SQLCIPHER'
+        params['password'] = True
         return params
 
     def sqlite_upper(self, value):
@@ -36,10 +37,11 @@ class SQLiteDB(AbstractDB):
     def connect(self, db_info):
         if not db_info.database:
             raise Exception('Must supply database name')
-        connection = sqlite3.connect(db_info.database)
+        connection = sqlite.connect(db_info.database, check_same_thread=False)
         connection.create_function("UPPER", 1, self.sqlite_upper)
         cursor = connection.cursor()
         cursor.execute("PRAGMA foreign_keys = ON")
+        cursor.execute('PRAGMA key= %s' % db_info.password)
         return connection
 
     def get_select(self, query, fields_clause, from_clause, where_clause, group_clause, order_clause, fields):
@@ -127,6 +129,6 @@ class SQLiteDB(AbstractDB):
             })
         return {'fields': fields, 'field_types': self.FIELD_TYPES}
 
-db = SQLiteDB()
+db = SQLiteCipherDB()
 
 
