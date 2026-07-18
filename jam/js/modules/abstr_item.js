@@ -896,9 +896,11 @@ class AbsrtactItem {
         if (form) {
             options = form.data('options'),
             key_suffix = form_name + '.' + this.item_name;
-            if (options.item_options.tab_id) {
-                key_suffix += '.' + options.item_options.tab_id;
-            }
+			if (options) {
+				if (options.item_options.tab_id) {
+					key_suffix += '.' + options.item_options.tab_id;
+				}
+			}
             let can_close = this._process_event(options.form_type, 'close_query');
             if (can_close !== false && this[form_name]) {
                 form.data('_closing', true);

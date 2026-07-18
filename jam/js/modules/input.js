@@ -579,33 +579,7 @@ class DBAbstractInput {
 			}
 		);
 		
-		//old date picker
-        /*this.$input.datepicker(
-            {
-                weekStart: parseInt(task.language.week_start, 10),
-                format: format,
-                daysMin: task.language.days_min.slice(1, -1).split(','),
-                months: task.language.months.slice(1, -1).split(','),
-                monthsShort: task.language.months_short.slice(1, -1).split(','),
-                date: this.field.value
-            })
-            .on('show', function(e) {
-                if (e.target === self.$input.get(0)) {
-                    e.stopPropagation();
-                    self.$input.datepicker().attr('data-weekStart', 1);
-                }
-            })
-            .on('hide hidden shown', function(e) {
-                if (e.target === self.$input.get(0)) {
-                    e.stopPropagation()
-                }
-            })
-            .on('changeDate', function(e) {
-                self.field.value = e.date;
-                self.$input.datepicker('hide');
-            });
-        this.$input.datepicker('show');
-        this.datepicker_shown = true;*/
+		$('.Zebra_DatePicker_Icon').attr("tabindex", "-1");
     }
 
     select_value() {

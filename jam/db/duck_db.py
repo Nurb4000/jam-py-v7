@@ -37,8 +37,8 @@ class DuckDB(AbstractDB):
             consts.TEXT: 'TEXT',
             consts.FLOAT: 'REAL',
             consts.CURRENCY: 'REAL',
-            consts.DATE: 'TEXT',
-            consts.DATETIME: 'TEXT',
+            consts.DATE: 'DATE',
+            consts.DATETIME: 'TIMESTAMP',
             consts.BOOLEAN: 'INTEGER',
             consts.LONGTEXT: 'TEXT',
             consts.KEYS: 'TEXT',
@@ -111,7 +111,7 @@ class DuckDB(AbstractDB):
         return result
 
     def del_field(self, table_name, field):
-        return ''
+        return 'ALTER TABLE "%s" DROP COLUMN "%s"' % (table_name, field.field_name)
 
     def change_field(self, table_name, old_field, new_field):
         return ''
@@ -126,7 +126,13 @@ class DuckDB(AbstractDB):
             return 'PRAGMA foreign_keys=off'
 
     def create_index(self, index_name, table_name, unique, fields, desc):
-        return 'CREATE %s INDEX "%s" ON "%s" (%s)' % (unique, index_name, table_name, fields)
+        #return 'CREATE %s INDEX "%s" ON "%s" (%s)' % (unique, index_name, table_name, fields)
+        return 'CREATE %s INDEX IF NOT EXISTS "%s" ON "%s" (%s)' % (
+            unique,
+            index_name,
+            table_name,
+            fields
+        )
 
     def drop_index(self, table_name, index_name):
         return 'DROP INDEX IF EXISTS "%s"' % index_name
