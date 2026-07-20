@@ -54,6 +54,8 @@ flowchart TD
     A4 --> B
     A5 --> B
     A6 --> B
+    A7 --> B
+    A8 --> B
 
     B --> C1
     B --> C2
