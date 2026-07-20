@@ -14,75 +14,67 @@ without having a complex web technology stack. It does that due to:
 
 ```mermaid
 flowchart TD
-    %% Data sources
-    A1[SQL Server]
-    A2[PostgreSQL]
-    A3[SQLite/SQLCipher]
-    A4[MySQL]
-    A5[DuckDB]
-    A6[Oracle]
-    A7[Legacy Systems]
-    A8[REST APIs]
 
-    %% Jam.py core
-    B[Jam.py Abstraction Layer]
+    subgraph DATA["Everywhere.Everything.All.At.Once"]
+        A1["SQL Server"]
+        A2["PostgreSQL"]
+        A3["Oracle"]
+        A4["SQLite/SQLCipher"]
+        A5["Firebird"]
+        A6["MySQL"]
+        A7["DuckDB"]
+        A8["Legacy Systems"]
+        A9["REST APIs"]
+        A10["Cloud Services"]
+    end
 
-    %% Core services
-    C1[Business Logic]
-    C2[Security & Permissions]
-    C3[Validation & Events]
-    C4[Reusable Data API]
+    A1 --> J
+    A2 --> J
+    A3 --> J
+    A4 --> J
+    A5 --> J
+    A6 --> J
+    A7 --> J
+    A8 --> J
+    A9 --> J
+    A10 --> J
 
-    %% Applications
-    D1[CRM]
-    D2[ERP]
-    D3[HR]
-    D4[Sales]
-    D5[Custom Applets]
+    J["Jam.py
+    ───────────────────────────
+    • Business Objects
+    • Events
+    • Validation
+    • Security
+    • Permissions
+    • REST API
+    • Business Logic"]
 
-    %% Delivery channels
-    E1[Desktop Browser]
-    E2[Mobile Web App]
-    E3[REST API]
-    E4[Reports & Dashboards]
-    E5[Automation & Integrations]
+    J --> API["Single Business API"]
 
-    %% Connections
-    A1 --> B
-    A2 --> B
-    A3 --> B
-    A4 --> B
-    A5 --> B
-    A6 --> B
-    A7 --> B
-    A8 --> B
+    API --> APP1["CRM"]
+    API --> APP2["ERP"]
+    API --> APP3["Warehouse"]
+    API --> APP4["Mobile App"]
+    API --> APP5["Dashboards"]
+    API --> APP6["Reports"]
+    API --> APP7["Automation"]
+    API --> APP8["Customer Portal"]
 
-    B --> C1
-    B --> C2
-    B --> C3
-    B --> C4
+    APP1 --> VALUE
+    APP2 --> VALUE
+    APP3 --> VALUE
+    APP4 --> VALUE
+    APP5 --> VALUE
+    APP6 --> VALUE
+    APP7 --> VALUE
+    APP8 --> VALUE
 
-    C4 --> D1
-    C4 --> D2
-    C4 --> D3
-    C4 --> D4
-    C4 --> D5
+    VALUE["🚀 Build Many Applications
+    From One Unified Business Model"]
 
-    D1 --> E1
-    D2 --> E1
-    D3 --> E2
-    D4 --> E4
-    D5 --> E3
-    D5 --> E5
-
-    %% Styling
-    style B fill:#b3e5fc,stroke:#0277bd,stroke-width:3px
-    style C4 fill:#ffecb3,stroke:#ff8f00,stroke-width:3px
-    style E1 fill:#c8e6c9,stroke:#2e7d32
-    style E2 fill:#c8e6c9,stroke:#2e7d32
-    style E3 fill:#c8e6c9,stroke:#2e7d32
-    style E4 fill:#c8e6c9,stroke:#2e7d32
-    style E5 fill:#c8e6c9,stroke:#2e7d32
+    style J fill:#b3e5fc,stroke:#0277bd,stroke-width:3px
+    style API fill:#fff3cd,stroke:#ff9800,stroke-width:2px
+    style VALUE fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px
 ```
 
 ## Installation and Launch
