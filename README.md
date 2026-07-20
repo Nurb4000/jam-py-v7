@@ -15,7 +15,7 @@ without having a complex web technology stack. It does that due to:
 ```mermaid
 flowchart TD
 
-    subgraph DATA["Everywhere.Everything.All.At.Once"]
+    subgraph DATA["<span style='font-size:22px'><b>Everything. Everywhere. All. At. Once.</b></span>"]
         A1["SQL Server"]
         A2["PostgreSQL"]
         A3["Oracle"]
