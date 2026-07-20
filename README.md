@@ -18,7 +18,7 @@ flowchart TD
     A1[SQL Server]
     A2[PostgreSQL]
     A3[SQLite/SQLCipher]
-    A5[MySQL]
+    A4[MySQL]
     A5[DuckDB]
     A6[Oracle]
     A7[Legacy Systems]
