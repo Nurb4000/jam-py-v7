@@ -77,6 +77,8 @@ flowchart TD
     style J fill:#b3e5fc,stroke:#0277bd,stroke-width:3px
     style API fill:#fff3cd,stroke:#ff9800,stroke-width:2px
     style VALUE fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px
+    style DATA fill:none,stroke:none
+    style SPACE fill:none,stroke:none
 ```
 
 ## Installation and Launch
