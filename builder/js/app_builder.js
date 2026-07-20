@@ -4378,7 +4378,7 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 				let base_url;
 				if (ext === 'py' || ext === 'js') {
 					const section = ext === 'py' ? 'server' : 'client';
-					base_url = `https://jampy-docs-v7.readthedocs.io/en/latest/refs/${section}/item/`;
+					base_url = 'https://jampy-docs-v7.readthedocs.io/en/latest/refs/${section}/item/';
 				}
 	
 	
@@ -4394,7 +4394,7 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 				const link = $('<a>', {
 					href: url,
 					target: '_blank',
-					title: `Open ${name}`,
+					title: 'Open ${name}',
 					class: 'icon-link',
 					css: { textDecoration: 'none' }
 				});
@@ -6286,21 +6286,15 @@ function Events26() { // app_builder.catalogs.sys_items.sys_fields
 			calculation = task.add_tab(edit_body, 'Calculation');
 	
 			intface.append($(
-				`<div id="interface" class="field-group">
-				</div>
-				<div id="text-interface" class="field-group">
-				</div>
-				<div id="file-interface" class="field-group">
-				</div>
-				<div id="image-interface" class="field-group">
-					<div id="image-interface1" class="field-group">
-					</div>
-					<div id="image-interface2" class="field-group" style="margin-top: 6px;">
-					</div>
-					<div id="image-interface3" class="field-group" style="margin-top: 6px;">
-					</div>
-				</div>`)
-				);
+			'<div id="interface" class="field-group"></div>' +
+			'<div id="text-interface" class="field-group"></div>' +
+			'<div id="file-interface" class="field-group"></div>' +
+			'<div id="image-interface" class="field-group">' +
+				'<div id="image-interface1" class="field-group"></div>' +
+				'<div id="image-interface2" class="field-group" style="margin-top:6px;"></div>' +
+				'<div id="image-interface3" class="field-group" style="margin-top:6px;"></div>' +
+			'</div>'
+			));
 	
 		item.create_inputs(general, {fields: fields});
 		item.create_inputs(lookups,

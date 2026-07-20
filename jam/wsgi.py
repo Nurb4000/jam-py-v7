@@ -370,11 +370,27 @@ class App(object):
             else:
                 return self.serve_page(login_path, login_params)
 
+#    def serve_prog_file(self, request, environ, file_name):
+#        base, ext = os.path.splitext(file_name)
+#        if consts.COMPRESSED_JS and ext and ext in ['.js', '.css'] and file_name != 'project.css':
+#            min_file_name = base + '.min' + ext
+#            environ['PATH_INFO'] = environ['PATH_INFO'].replace(file_name, min_file_name)
+#        return self.fileserver
     def serve_prog_file(self, request, environ, file_name):
         base, ext = os.path.splitext(file_name)
-        if consts.COMPRESSED_JS and ext and ext in ['.js', '.css'] and file_name != 'project.css':
+        path = environ.get('PATH_INFO', '')
+
+        if (consts.COMPRESSED_JS
+            and ext in ['.js', '.css']
+            and file_name != 'project.css'
+            and '/min/' not in path):
+
             min_file_name = base + '.min' + ext
-            environ['PATH_INFO'] = environ['PATH_INFO'].replace(file_name, min_file_name)
+            environ['PATH_INFO'] = environ['PATH_INFO'].replace(
+                file_name,
+                min_file_name
+            )
+
         return self.fileserver
 
     def on_jam_file(self, request, environ, file_name):

@@ -476,7 +476,9 @@ def get_minified_name(file_name):
     return result
 
 def minify(file_name):
+    print("MINIFY:", file_name)
     min_file_name = get_minified_name(file_name)
+    print("OUTPUT:", min_file_name)
     from jsmin import jsmin
     text = file_read(file_name)
     file_write(min_file_name, jsmin(text))
@@ -1971,6 +1973,8 @@ def prepare_files(task):
     f = f.replace('events1 ', 'events0 ')
     f = f.replace('Events1', 'Events0')
     file_write(js_file, f)
+    if consts.COMPRESSED_JS:
+        minify(js_file)
 
     restore_caption_keys(task)
     try:
