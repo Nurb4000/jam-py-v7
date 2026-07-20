@@ -25,7 +25,7 @@ flowchart TD
     A8[REST APIs]
 
     %% Jam.py core
-    B[Jam.py Unified Data Layer]
+    B[Jam.py Abstraction Layer]
 
     %% Core services
     C1[Business Logic]
