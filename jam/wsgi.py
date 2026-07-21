@@ -383,7 +383,8 @@ class App(object):
         if (consts.COMPRESSED_JS
             and ext in ['.js', '.css']
             and file_name != 'project.css'
-            and '/min/' not in path):
+            and '.min.' not in file_name
+            and not path.startswith('/jam/js/min/vs/')):
 
             min_file_name = base + '.min' + ext
             environ['PATH_INFO'] = environ['PATH_INFO'].replace(
