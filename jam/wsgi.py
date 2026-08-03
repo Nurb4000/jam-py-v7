@@ -317,38 +317,29 @@ class App(object):
         return self._jinja_env
 
     def serve_page(self, file_name, dic=None):
-        # Handle absolute paths safely by converting them to relative paths for Jinja2
-        # if os.path.isabs(file_name):
-        #     file_name = os.path.relpath(file_name, self.work_dir)
         jam_html = os.path.join(os.path.dirname(__file__), "html")
 
-        self._jinja_env = Environment(
-            loader=FileSystemLoader([
-                self.work_dir,
-                jam_html,
-            ]),
-            autoescape=True
-        )
-        if os.path.isabs(file_name):
-            if file_name.startswith(self.work_dir):
-                file_name = os.path.relpath(file_name, self.work_dir)
-            elif file_name.startswith(jam_html):
-                file_name = os.path.relpath(file_name, jam_html)            
-        try:
-            # In-line self-contained initialization to avoid NameErrors
-            if not hasattr(self, '_jinja_env'):
-                self._jinja_env = Environment(
-                    loader = FileSystemLoader(self.work_dir),
-                    autoescape = True
-                )
-            
-            template = self._jinja_env.get_template(file_name)
-            page = template.render(dic or {})
-            return Response(page, mimetype="text/html")
-        except Exception as e:
-            print(f"Jinja render error: {e}") # helpful for debugging template issues
-            raise NotFound()
-    #new
+        if not hasattr(self, '_jinja_env'):
+            self._jinja_env = Environment(
+                loader=FileSystemLoader([
+                    self.work_dir,
+                    jam_html,
+                ]),
+                autoescape=True
+            )
+
+        # Convert filesystem separators to Jinja template separators
+        file_name = file_name.replace("\\", "/")
+
+        # Strip known loader prefixes
+        for base in [self.work_dir, jam_html]:
+            base = base.replace("\\", "/")
+            if file_name.startswith(base):
+                file_name = file_name[len(base):].lstrip("/")
+
+        template = self._jinja_env.get_template(file_name)
+        page = template.render(dic or {})
+        return Response(page, mimetype="text/html")
 
     def on_index(self, request, file_name):
         if file_name == 'login.html':
