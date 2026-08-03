@@ -33,6 +33,9 @@ from .admin.import_metadata import import_metadata
 from .tree import AbortException
 from .admin.task import create_task, reload_task
 
+#new
+from jinja2 import Environment, FileSystemLoader
+
 class JamSecureCookie(SecureCookie):
     serialization_method = json
 
@@ -275,7 +278,7 @@ class App(object):
             return self.show_error(error_message(e))(environ, start_response)
             # ~ return e
 
-    def serve_page(self, file_name, dic=None):
+    '''def serve_page(self, file_name, dic=None):
         path = os.path.join(self.work_dir, file_name)
         if os.path.exists(path):
             page = file_read(path)
@@ -284,10 +287,12 @@ class App(object):
             return Response(page, mimetype="text/html")
         else:
             raise NotFound()
+    '''
 
     def show_information(self, message):
         return self.show_error(message, 'alert-info', 'Information')
 
+   
     def show_error(self, message, error_class=None, error_type=None):
         if not error_class:
             error_class = 'alert-error'
@@ -299,6 +304,51 @@ class App(object):
             'error_type': error_type,
             'message': message
         })
+    
+    
+    #new
+    # Initialize Jinja2 environment pointing to the project root directory
+    def get_jinja_env(self):
+        if not hasattr(self, '_jinja_env'):
+            self._jinja_env = Environment(
+                loader=FileSystemLoader(self.work_dir),
+                autoescape=True
+            )
+        return self._jinja_env
+
+    def serve_page(self, file_name, dic=None):
+        # Handle absolute paths safely by converting them to relative paths for Jinja2
+        # if os.path.isabs(file_name):
+        #     file_name = os.path.relpath(file_name, self.work_dir)
+        jam_html = os.path.join(os.path.dirname(__file__), "html")
+
+        self._jinja_env = Environment(
+            loader=FileSystemLoader([
+                self.work_dir,
+                jam_html,
+            ]),
+            autoescape=True
+        )
+        if os.path.isabs(file_name):
+            if file_name.startswith(self.work_dir):
+                file_name = os.path.relpath(file_name, self.work_dir)
+            elif file_name.startswith(jam_html):
+                file_name = os.path.relpath(file_name, jam_html)            
+        try:
+            # In-line self-contained initialization to avoid NameErrors
+            if not hasattr(self, '_jinja_env'):
+                self._jinja_env = Environment(
+                    loader = FileSystemLoader(self.work_dir),
+                    autoescape = True
+                )
+            
+            template = self._jinja_env.get_template(file_name)
+            page = template.render(dic or {})
+            return Response(page, mimetype="text/html")
+        except Exception as e:
+            print(f"Jinja render error: {e}") # helpful for debugging template issues
+            raise NotFound()
+    #new
 
     def on_index(self, request, file_name):
         if file_name == 'login.html':
@@ -335,7 +385,64 @@ class App(object):
                 return self.fileserver
             else:
                 return redirect('/login.html')
+                
+    def on_builder(self, request, file_name):
+        # Define a quick helper to render standard framework framework files safely
+        def render_builder_page(task_obj, file_path, context_dict):
+            # Resolve absolute framework path into relative path for the Jinja Loader
+            if os.path.isabs(file_path):
+                # Target the parent directory of the specific file as the loader root
+                base_dir = os.path.dirname(file_path)
+                template_name = os.path.basename(file_path)
+            else:
+                base_dir = task_obj.work_dir
+                template_name = file_path
 
+            env = Environment(loader=FileSystemLoader(base_dir), autoescape=True)
+            template = env.get_template(template_name)
+            
+            #from werkzeug.wrappers import Response
+            return Response(template.render(context_dict), mimetype="text/html")
+
+        if file_name == 'builder.html':
+            if os.path.exists(os.path.join(self.work_dir, file_name)):
+                request.environ['PATH_INFO'] = '/%s' % file_name
+                return self.fileserver
+            if self.check_session(request, self.admin):
+                request.environ['PATH_INFO'] = '/jam/html/%s' % file_name
+                return self.fileserver
+            else:
+                return redirect('/builder_login.html')
+
+        elif file_name == 'builder_login.html':
+            login_params = {
+                'title': 'Jam.py Application Builder',
+                'error': '',
+                'form_title': consts.lang['log_in'] + ' - Application Builder',
+                'login_text': consts.lang['login'],
+                'password_text': consts.lang['password'],
+                'login': '',
+                'password': ''
+            }
+            
+            # Pointing to the internal framework template path
+            login_path = os.path.join(self.jam_dir, 'html', 'login.html')
+            
+            if request.method == 'POST':
+                response = self.login(request, self.admin, request.form)
+                if response:
+                    return response
+                else:
+                    form = request.form.to_dict()
+                    login_params['error'] = 'error-modal-border'
+                    login_params['login'] = html.escape(form.get('login', ''))
+                    login_params['password'] = html.escape(form.get('password', ''))
+                    
+                    return render_builder_page(self, login_path, login_params)
+            else:
+                return render_builder_page(self, login_path, login_params)
+
+    '''
     def on_builder(self, request, file_name):
         if file_name == 'builder.html':
             if os.path.exists(os.path.join(self.work_dir, file_name)):
@@ -369,13 +476,8 @@ class App(object):
                     return self.serve_page(login_path, login_params)
             else:
                 return self.serve_page(login_path, login_params)
+    '''
 
-#    def serve_prog_file(self, request, environ, file_name):
-#        base, ext = os.path.splitext(file_name)
-#        if consts.COMPRESSED_JS and ext and ext in ['.js', '.css'] and file_name != 'project.css':
-#            min_file_name = base + '.min' + ext
-#            environ['PATH_INFO'] = environ['PATH_INFO'].replace(file_name, min_file_name)
-#        return self.fileserver
     def serve_prog_file(self, request, environ, file_name):
         base, ext = os.path.splitext(file_name)
         path = environ.get('PATH_INFO', '')
@@ -391,7 +493,6 @@ class App(object):
                 file_name,
                 min_file_name
             )
-
         return self.fileserver
 
     def on_jam_file(self, request, environ, file_name):

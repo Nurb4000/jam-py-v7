@@ -1086,7 +1086,7 @@ function Events3() { // sys_items
 			task.item_tree.type_id.value === task.item_types.TABLES_TYPE) {
 			item.fields_editor = true;
 			item.view_options.fields = ['id', 'f_name', 'f_item_name', 'f_table_name',
-				'f_visible', 'f_keep_history', 'f_edit_lock'];
+				'f_visible', 'f_keep_history', 'f_edit_lock', 'f_copy_of'];
 			item.edit_options.fields = ['f_name', 'f_item_name', 'f_table_name'];
 			if (item.task._manual_update) {
 				item.sys_fields.view_options.fields = ['f_name', 'f_field_name',  'f_db_field_name',
@@ -1478,6 +1478,7 @@ function Events3() { // sys_items
 			item.read_only = false;
 			if (item.rec_count && item.f_table_name && item.f_virtual_table) {
 				item.f_virtual_table.read_only = !item.is_new();
+				item.f_copy_of.read_only = !item.f_copy_of.value;
 	
 				if (item.task._manual_update) {
 					item.f_table_name.read_only = false;
@@ -1508,7 +1509,7 @@ function Events3() { // sys_items
 				fields = fields.concat(['f_master_id', 'f_master_rec_id'])
 			}
 			fields = fields.concat(['f_record_version']);
-			fields = fields.concat(['f_visible', 'f_soft_delete', 'f_virtual_table', 'f_keep_history', 'f_edit_lock'])
+			fields = fields.concat(['f_visible', 'f_soft_delete', 'f_virtual_table', 'f_keep_history', 'f_edit_lock', 'f_copy_of'])
 		}
 		if (item.type_id.value === types.ITEMS_TYPE || item.type_id.value === types.TABLES_TYPE) {
 			item.fields_editor = true;
@@ -1589,12 +1590,14 @@ function Events3() { // sys_items
 						row_callback: field_colors
 					});
 				if (!(item.f_copy_of.value && item.is_new())) {
+					item.edit_form.find('input.f_copy_of').parent().width('50%');
 					item.sys_fields.open({order_by: ['f_field_name']}, true);
 					if (item.is_new()) {
 						create_common_fields(item);		
 					}
 				}
 				if (item.f_copy_of.value) {
+					item.edit_form.find('input.f_copy_of').parent().width('50%');
 					item.edit_form.find("#add-fields-btn").show();				
 					item.edit_form.find("#add-fields-btn").click(function() {
 						add_fields_to_copy(item);
