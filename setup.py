@@ -20,6 +20,7 @@ setup(
         "jsmin",
         "sqlparse",
         "standard-imghdr",
+        "jinja2",
     ],
     packages=[
         'jam', 'jam.db', 'jam.admin', 'jam.secure_cookie'
