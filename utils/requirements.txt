@@ -18,3 +18,5 @@ pymssql
 duckdb
 fdb
 jinja2
+firebirdsql
+firebird-driver

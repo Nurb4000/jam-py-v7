@@ -16,6 +16,14 @@ def get_database(app, db_type, lib):
             from .mysql_db import db
     elif db_type == consts.FIREBIRD:
         from .firebird_db import db
+        if lib == 1:
+            from .firebird_db1 import db
+        elif lib == 2:
+            from .firebird_db2 import db
+        elif lib == 3:
+            from .firebird_db3 import db
+        else:
+            from .firebird_db import db
     elif db_type == consts.ORACLE:
         from .oracle_db import db
         if lib == 1:
@@ -41,8 +49,6 @@ def get_database(app, db_type, lib):
             from .duck_db import db
     elif db_type == consts.DATABRICKS:
         from .databricks_db import db
-    elif db_type == consts.SQLCIPHER:
-        from .sqlitecipher_db import db
     if db:
         db.app = app
     return db

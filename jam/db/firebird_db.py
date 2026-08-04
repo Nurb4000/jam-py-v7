@@ -1,5 +1,3 @@
-import fdb
-
 from ..common import consts
 from .db import AbstractDB
 
@@ -26,19 +24,13 @@ class FirebirdDB(AbstractDB):
     def get_params(self, lib):
         params = self.params
         params['name'] = 'FIREBIRD'
+        params['lib'] = ['firebird-driver', 'fdb', 'firebirdsql']
         params['login'] = True
         params['password'] = True
         params['encoding'] = True
         params['host'] = True
         params['port'] = True
         return params
-
-    def connect(self, db_info):
-        if not db_info.database:
-            raise Exception('Must supply database')
-        return fdb.connect(database=db_info.database, user=db_info.user,
-            password=db_info.password, charset=db_info.encoding,
-            host=db_info.host, port=db_info.port)
 
     def get_select(self, query, fields_clause, from_clause, where_clause, group_clause, order_clause, fields):
         start = fields_clause
@@ -63,15 +55,31 @@ class FirebirdDB(AbstractDB):
             result.append(value)
         return result
 
+#    def process_query_result(self, rows):
+#        result = []
+#        for row in rows:
+#            new_row = []
+#            for r in row:
+#                if isinstance(r, fdb.fbcore.BlobReader):
+#                    r = str(r.read(), 'utf-8')
+#                elif type(r) == bytes:
+#                    r = str(r, 'utf-8')
+#                new_row.append(r)
+#            result.append(new_row)
+#        return result
     def process_query_result(self, rows):
         result = []
         for row in rows:
             new_row = []
             for r in row:
-                if isinstance(r, fdb.fbcore.BlobReader):
-                    r = str(r.read(), 'utf-8')
-                elif type(r) == bytes:
-                    r = str(r, 'utf-8')
+                if hasattr(r, "read"):
+                    data = r.read()
+                    if isinstance(data, bytes):
+                        r = data.decode("utf-8")
+                    else:
+                        r = data
+                elif isinstance(r, bytes):
+                    r = r.decode("utf-8")
                 new_row.append(r)
             result.append(new_row)
         return result
