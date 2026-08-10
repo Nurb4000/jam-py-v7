@@ -3,6 +3,7 @@
 
 function Events1() { // demo 
 
+	// sadjia 
 	function on_page_loaded(task) { 
 		
 		$("title").text(task.item_caption);
@@ -500,6 +501,7 @@ task.events.events15 = new Events15();
 
 function Events16() { // demo.journals.invoices 
 
+	// /asdjsakdjsdsadsad
 	function on_view_form_created(item) {
 		item.invoice_table.master_applies = false;
 		set_paid_btn(item);
