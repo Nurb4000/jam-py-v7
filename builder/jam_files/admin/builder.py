@@ -826,6 +826,7 @@ def do_on_apply_param_changes(item, delta, params, connection):
     version = consts.VERSION
     theme = consts.THEME
     small_font = consts.SMALL_FONT
+    modern_input_btns = consts.MODERN_INPUT_BTNS
 
     if item.item_name == 'sys_params':
         delta.edit()

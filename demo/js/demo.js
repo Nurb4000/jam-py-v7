@@ -534,6 +534,12 @@ function Events16() { // demo.journals.invoices
 				return '<strong>' + field.display_text + '</strong>';
 			}
 		}
+	
+		if (field.field_name === 'paid') {
+			if (field.value) {
+				return '<i class="bi bi-check2-square"></i>';
+			}
+		}
 	}
 	
 	function on_field_changed(field, lookup_item) {

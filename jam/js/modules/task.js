@@ -357,6 +357,8 @@ class Task extends AbsrtactItem {
             self.visible = info.task.visible;
             self.lookup_lists = info.task.lookup_lists;
             self.history_item = info.task.history_item;
+			self.modern_input_btns = info.settings.MODERN_INPUT_BTNS;
+			
             self.item_type = "";
             if (info.task.type) {
                 self.item_type = self.types[info.task.type - 1];

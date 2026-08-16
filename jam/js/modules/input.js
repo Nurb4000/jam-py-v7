@@ -15,64 +15,107 @@ class DBAbstractInput {
 		}
 		let input = '<input type="text" class="form-control">',
 			label = '<label class="form-label input-centered-label"></label>';
-			
-		if (field.lookup_item && !field.master_field || field.lookup_values ||
-			field_type === consts.DATE || field_type === consts.DATETIME || field.bool_filter) {
-			
-			let icon_name = 'bi-chevron-down';
-			if (field.lookup_item && !field.bool_filter) {
-				icon_name = 'bi-search';
-			} else if (field_type === consts.DATE || field_type === consts.DATETIME) {
-				icon_name = 'bi-calendar';
-			}
-			
-			if (field_type === consts.DATE || field_type === consts.DATETIME) {
-				// first-btn gets left-aligned with structural start-rounding classes applied
-				let clearBtn = '<button type="button" class="first-btn btn btn-seamless btn-start-placement" tabindex="-1"><i class="bi bi-x-lg"></i></button>';
-				let actionBtn = '<button type="button" class="last-btn btn btn-seamless" tabindex="-1"><i class="bi ' + icon_name + '"></i></button>';
-				
+		
+		//upgrade start
+		//for old jams buttons on start and end of input
+		if (task.settings.MODERN_INPUT_BTNS === false) {
+			if (field.lookup_item && !field.master_field || field.lookup_values ||
+				field_type === consts.DATE || field_type === consts.DATETIME || field.bool_filter) {
+				let icon_name = 'bi-chevron-down';
+				if (field.lookup_item && !field.bool_filter) {
+					icon_name = 'bi-search';
+				} else if (field_type === consts.DATE || field_type === consts.DATETIME) {
+					icon_name = 'bi-calendar';
+				}
 				input = '<div class="input-group">' +
-					clearBtn +
-					'<input type="text" class="form-control border-start-0 border-end-0 rounded-0">' +
-					actionBtn +
-				'</div>';
-			} else {
-				// first-btn sits in middle: flat styling, top and bottom border metrics apply
+					'<button type="button" class="first-btn btn btn-outline-secondary" tabindex="-1"><i class="bi bi-x-lg"></i></button>' +
+					'<input type="text" class="form-control">' +
+					'<button type="button" class="last-btn btn btn-outline-secondary" tabindex="-1"><i class="bi ' + icon_name + '"></i></button>' +
+				'</div>'
+			}
+			else if (field_type === consts.FILE) {
+				let field_file;
+				if (this.field.data_type === consts.FILE) {
+					field_file = this.field.field_file;
+				}
+				else {
+					field_file = this.field.lookup_item[this.field.lookup_field].field_file;
+				}
+				input = '<div class="input-group">' +
+				  '<button type="button" class="first-btn btn btn-outline-secondary" tabindex="-1""><i class="bi bi-x-lg"></i></button>' +
+				  '<input type="text" class="form-control">' +
+				  '<button type="button" class="upload-btn btn btn-outline-secondary" tabindex="-1"><i class="bi bi-upload"></i></button>'
+				if (field_file.download_btn) {
+					input += '<button type="button" class="download-btn btn btn-outline-secondary" tabindex="-1""><i class="bi bi-download"></i></button>'
+				}
+				if (field_file.open_btn) {
+					input += '<button type="button" class="open-btn btn btn-outline-secondary" tabindex="-1"><i class="bi bi-play-btn"></i></button>'
+				}
+				input += '</div>'
+			}
+		}	
+		//for modern input buttons on right side
+		else if (task.settings.MODERN_INPUT_BTNS === true){	
+			if (field.lookup_item && !field.master_field || field.lookup_values ||
+				field_type === consts.DATE || field_type === consts.DATETIME || field.bool_filter) {
+				
+				let icon_name = 'bi-chevron-down';
+				if (field.lookup_item && !field.bool_filter) {
+					icon_name = 'bi-search';
+				} else if (field_type === consts.DATE || field_type === consts.DATETIME) {
+					icon_name = 'bi-calendar';
+				}
+				
+				if (field_type === consts.DATE || field_type === consts.DATETIME) {
+					// first-btn gets left-aligned with structural start-rounding classes applied
+					let clearBtn = '<button type="button" class="first-btn btn btn-seamless btn-start-placement" tabindex="-1"><i class="bi bi-x-lg"></i></button>';
+					let actionBtn = '<button type="button" class="last-btn btn btn-seamless" tabindex="-1"><i class="bi ' + icon_name + '"></i></button>';
+					
+					input = '<div class="input-group">' +
+						clearBtn +
+						'<input type="text" class="form-control border-start-0 border-end-0 rounded-0">' +
+						actionBtn +
+					'</div>';
+				} else {
+					// first-btn sits in middle: flat styling, top and bottom border metrics apply
+					let clearBtn = '<button type="button" class="first-btn btn btn-seamless btn-middle-placement" tabindex="-1"><i class="bi bi-x-lg"></i></button>';
+					let actionBtn = '<button type="button" class="last-btn btn btn-seamless" tabindex="-1"><i class="bi ' + icon_name + '"></i></button>';
+					
+					input = '<div class="input-group">' +
+						'<input type="text" class="form-control border-end-0 rounded-0 rounded-start">' +
+						clearBtn +
+						actionBtn +
+					'</div>';
+				}
+			}
+			else if (field_type === consts.FILE) {
+				let field_file;
+				if (this.field.data_type === consts.FILE) {
+					field_file = this.field.field_file;
+				}
+				else {
+					field_file = this.field.lookup_item[this.field.lookup_field].field_file;
+				}
+				
 				let clearBtn = '<button type="button" class="first-btn btn btn-seamless btn-middle-placement" tabindex="-1"><i class="bi bi-x-lg"></i></button>';
-				let actionBtn = '<button type="button" class="last-btn btn btn-seamless" tabindex="-1"><i class="bi ' + icon_name + '"></i></button>';
+				let uploadBtn = '<button type="button" class="upload-btn btn btn-seamless" tabindex="-1"><i class="bi bi-upload"></i></button>';
 				
 				input = '<div class="input-group">' +
-					'<input type="text" class="form-control border-end-0 rounded-0 rounded-start">' +
-					clearBtn +
-					actionBtn +
-				'</div>';
+				  '<input type="text" class="form-control border-end-0 rounded-0 rounded-start">' +
+				  clearBtn +
+				  uploadBtn;
+				  
+				if (field_file.download_btn) {
+					input += '<button type="button" class="download-btn btn btn-seamless" tabindex="-1"><i class="bi bi-download"></i></button>';
+				}
+				if (field_file.open_btn) {
+					input += '<button type="button" class="open-btn btn btn-seamless" tabindex="-1"><i class="bi bi-play-btn"></i></button>';
+				}
+				input += '</div>';
 			}
 		}
-		else if (field_type === consts.FILE) {
-			let field_file;
-			if (this.field.data_type === consts.FILE) {
-				field_file = this.field.field_file;
-			}
-			else {
-				field_file = this.field.lookup_item[this.field.lookup_field].field_file;
-			}
-			
-			let clearBtn = '<button type="button" class="first-btn btn btn-seamless btn-middle-placement" tabindex="-1"><i class="bi bi-x-lg"></i></button>';
-			let uploadBtn = '<button type="button" class="upload-btn btn btn-seamless" tabindex="-1"><i class="bi bi-upload"></i></button>';
-			
-			input = '<div class="input-group">' +
-			  '<input type="text" class="form-control border-end-0 rounded-0 rounded-start">' +
-			  clearBtn +
-			  uploadBtn;
-			  
-			if (field_file.download_btn) {
-				input += '<button type="button" class="download-btn btn btn-seamless" tabindex="-1"><i class="bi bi-download"></i></button>';
-			}
-			if (field_file.open_btn) {
-				input += '<button type="button" class="open-btn btn btn-seamless" tabindex="-1"><i class="bi bi-play-btn"></i></button>';
-			}
-			input += '</div>';
-		}
+		//upgrade end
+		
 		else if (field_type === consts.IMAGE) {
 			input = '<div class="image-div">';
 		}

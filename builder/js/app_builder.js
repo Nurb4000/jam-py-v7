@@ -3021,7 +3021,7 @@ function Events8() { // app_builder.catalogs.sys_params
 				label_size: 5
 			});
 			item.create_inputs(intface, {
-				fields: ['f_theme', 'f_ace_theme', 'f_small_font', 'f_full_width', 'f_forms_in_tabs'],
+				fields: ['f_theme', 'f_ace_theme', 'f_small_font', 'f_full_width', 'f_forms_in_tabs','f_modern_input_btns'],
 				// in_well: false,
 				label_size: 5
 			});
