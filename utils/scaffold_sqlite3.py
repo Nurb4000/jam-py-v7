@@ -160,10 +160,13 @@ def get_table_info(db_file, table_name):
 def get_foreign_keys(db_file, table_name):
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
-    cursor.execute(f"PRAGMA foreign_key_list({table_name})")
+
+    table_name = table_name.replace('"', '""')
+    cursor.execute(f'PRAGMA foreign_key_list("{table_name}")')
+
     fks = cursor.fetchall()
     conn.close()
-    # Return a list of dicts for clarity
+
     return [
         {"from": fk[3], "to_table": fk[2], "to_column": fk[4]}
         for fk in fks
