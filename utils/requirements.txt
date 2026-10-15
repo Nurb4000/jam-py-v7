@@ -20,3 +20,4 @@ fdb
 jinja2
 firebirdsql
 firebird-driver
+pyodbc

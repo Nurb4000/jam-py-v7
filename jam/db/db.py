@@ -599,14 +599,15 @@ class AbstractDB(object):
                     if funcs:
                         func = functions.get(field.field_name.upper())
                     if func:
-                        field_sql = '%s(%s) %s "%s"' % (func.upper(), field_sql, field_alias)
+                        field_sql = '%s(%s) %s "%s"' % (func.upper(), field_sql, self.FIELD_AS, field_alias)
                     else:
                         field_sql = '%s %s %s' % (field_sql, self.FIELD_AS, field_alias)
                     sql.append(field_sql)
         sql = ', '.join(sql)
         return sql
 
-    def add_join(self, result, joins, item, field):
+    def add_join_no(self, result, joins, item, field):
+        print(getattr(self, "db_type", ""))
         alias = self.lookup_table_alias(item, field)
         cur_field = field
         if field.master_field:
@@ -621,6 +622,42 @@ class AbstractDB(object):
                 primary_key_field_name
             ))
             joins[alias] = True
+
+    def add_join(self, result, joins, item, field):
+        alias = self.lookup_table_alias(item, field)
+
+        cur_field = field
+        if field.master_field:
+            cur_field = field.master_field
+
+        if not joins.get(alias):
+            primary_key_field_name = (
+                field.lookup_item._primary_key_db_field_name
+            )
+
+            join_clause = '%s ON %s."%s" = %s."%s"' % (
+                self.LEFT_OUTER_JOIN % (
+                    field.lookup_item.table_name,
+                    self.lookup_table_alias(item, field)
+                ),
+                self.table_alias(item),
+                cur_field.db_field_name,
+                self.lookup_table_alias(item, field),
+                primary_key_field_name
+            )
+
+            if getattr(self, 'db_type', None) == 10:
+                # Microsoft Access requires nested JOIN expressions.
+                if result:
+                    previous = result.pop(0)
+                    result.append('(%s %s)' % (previous, join_clause))
+                else:
+                    result.append(join_clause)
+            else:
+                result.append(join_clause)
+
+            joins[alias] = True
+
 
     def add_join1(self, result, joins, item, field):
         alias = self.lookup_table_alias1(item, field)

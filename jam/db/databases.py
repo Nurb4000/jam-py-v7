@@ -49,6 +49,10 @@ def get_database(app, db_type, lib):
             from .duck_db import db
     elif db_type == consts.DATABRICKS:
         from .databricks_db import db
+    elif db_type == consts.SQLCIPHER:
+        from .sqlitecipher_db import db
+    elif db_type == consts.ACCESS:
+        from .access_db import db
     if db:
         db.app = app
     return db
