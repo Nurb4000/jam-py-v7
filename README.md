@@ -4,7 +4,7 @@
 
 ## With Jam.py, build business software - not technology stacks.
 
-Jam.py lets a single developer build an entire [business] [![Try Jam.py online](https://img.shields.io/badge/Try_Jam.py-online-008BFF)](https://portal.uppcoder.com/try/jampy) application 
+Jam.py lets a single developer build an entire **business** [![Try Jam.py online](https://img.shields.io/badge/Try_Jam.py-online-008BFF)](https://portal.uppcoder.com/try/jampy) application 
 without having a complex web technology stack. It does that due to:
 
 1. A full developer framework, not only a low-code tool. 
