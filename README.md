@@ -4,7 +4,7 @@
 
 ## With Jam.py, build business software - not technology stacks.
 
-Jam.py lets a single developer build an entire [business](https://northwind.pythonanywhere.com/) application 
+Jam.py lets a single developer build an entire [business] [![Try Jam.py online](https://img.shields.io/badge/Try_Jam.py-online-008BFF)](https://portal.uppcoder.com/try/jampy) application 
 without having a complex web technology stack. It does that due to:
 
 1. A full developer framework, not only a low-code tool. 
@@ -99,10 +99,10 @@ and topics only:
 https://jampy-docs-v7.readthedocs.io/en/latest/llms.txt
 
 
-[![alt text](https://github.com/jam-py-v5/jam-py-v7/blob/develop/assets/images/JAMPY_Readme.gif?raw=true)](https://northwind.pythonanywhere.com)
+[![alt text](https://github.com/jam-py-v5/jam-py-v7/blob/develop/assets/images/JAMPY_Readme.gif?raw=true)](https://uppcoder.com/demos/northwind)
 
 Builder animation:
-[![alt text](https://github.com/jam-py-v5/jam-py-v7/blob/develop/assets/images/builder_animation.gif?raw=true)](https://northwind.pythonanywhere.com)
+[![alt text](https://github.com/jam-py-v5/jam-py-v7/blob/develop/assets/images/builder_animation.gif?raw=true)](https://uppcoder.com/demos/northwind)
 
 Some short videos about how to setup Jam.py and create applications:
 
