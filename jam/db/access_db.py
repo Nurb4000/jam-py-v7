@@ -41,6 +41,7 @@ class AccessDB(AbstractDB):
     def get_params(self, lib):
         params = self.params
         params['name'] = 'ACCESS'
+        params['password'] = True
         return params
 
     def access_upper(self, value):
@@ -52,17 +53,13 @@ class AccessDB(AbstractDB):
     def connect(self, db_info):
         if not db_info.database:
             raise Exception('Must supply database name')
-        #conn_str = (r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ="%r" %db_info.database ;')
         conn_str = r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
         conn_str += 'DBQ=%s' % db_info.database
+        conn_str += ';PWD=%s' % db_info.password
         conn_str += r';)'
 
-        #print(conn_str)
-        #print(db_info.database)
         connection = pyodbc.connect(conn_str)
-        #connection.create_function("UPPER", 1, self.sqlite_upper)
         cursor = connection.cursor()
-        #cursor.execute("PRAGMA foreign_keys = ON")
         return connection
 
     def process_query_params(self, params, cursor):
@@ -301,26 +298,6 @@ class AccessDB(AbstractDB):
         return '%s' % field_name, val.upper()
 
 
-#    def create_table(self, table_name, fields, gen_name=None, foreign_fields=None):
-#        primary_key = ''
-#        sql = 'CREATE TABLE "%s"\n(\n' % table_name
-#        lines = []
-#        for field in fields:
-#            default_text = self.default_text(field)
-#            line = '"%s" %s' % (field.field_name, self.FIELD_TYPES[field.data_type])
-#            if field.primary_key:
-#                primary_key = field.field_name
-#                line += ' PRIMARY KEY'
-#            if not default_text is None:
-#                line += ' DEFAULT %s' % default_text
-#            lines.append(line)
-#        if foreign_fields:
-#            for field in foreign_fields:
-#                lines.append('FOREIGN KEY(%s) REFERENCES %s(%s)\n' % \
-#                    (field['key'], field['ref'], field['primary_key']))
-#        sql += ',\n'.join(lines)
-#        sql += '\n)'
-#        return sql
     def create_table(self, table_name, fields, gen_name=None, foreign_fields=None):
         sql = 'CREATE TABLE "%s"\n(\n' % table_name
         lines = []
@@ -374,7 +351,7 @@ class AccessDB(AbstractDB):
         return ''
 
     def drop_table(self, table_name, gen_name):
-        return 'DROP TABLE IF EXISTS "%s"' % table_name
+        return 'DROP TABLE "%s"' % table_name
 
     def set_foreign_keys(self, value):
         if value:
