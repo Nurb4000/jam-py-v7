@@ -12,73 +12,6 @@ without having a complex web technology stack. It does that due to:
 3. Modern application layer suitable to modernize existing systems without rebuilding everything.
 4. Runs accross desktop browsers and mobile devices while keeping a single application codebase.
 
-```mermaid
-flowchart TD
-
-    subgraph DATA["<span style='font-size:22px'><b>Everything. Everywhere. All. At. Once.</b></span>"]
-    SPACE[" "]
-
-        A1["SQL Server"]
-        A2["PostgreSQL"]
-        A3["Oracle"]
-        A4["SQLite/SQLCipher"]
-        A5["Firebird"]
-        A6["MySQL"]
-        A7["DuckDB"]
-        A8["Legacy Systems"]
-        A9["REST APIs"]
-        A10["Cloud Services"]
-    end
-
-    A1 --> J
-    A2 --> J
-    A3 --> J
-    A4 --> J
-    A5 --> J
-    A6 --> J
-    A7 --> J
-    A8 --> J
-    A9 --> J
-    A10 --> J
-
-    J["Jam.py
-    ───────────────────────────
-    • Business Objects
-    • Events
-    • Validation
-    • Security
-    • Permissions
-    • REST API
-    • Business Logic"]
-
-    J --> API["Single Business API"]
-
-    API --> APP1["CRM"]
-    API --> APP2["ERP"]
-    API --> APP3["Warehouse"]
-    API --> APP4["Mobile App"]
-    API --> APP5["Dashboards"]
-    API --> APP6["Reports"]
-    API --> APP7["Automation"]
-    API --> APP8["Customer Portal"]
-
-    APP1 --> VALUE
-    APP2 --> VALUE
-    APP3 --> VALUE
-    APP4 --> VALUE
-    APP5 --> VALUE
-    APP6 --> VALUE
-    APP7 --> VALUE
-    APP8 --> VALUE
-
-    VALUE["🚀 Build Many Applications
-    From One Unified Business Model"]
-
-    style J fill:#b3e5fc,stroke:#0277bd,stroke-width:3px
-    style API fill:#fff3cd,stroke:#ff9800,stroke-width:2px
-    style VALUE fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px
-    style SPACE fill:none,stroke:none
-```
 
 ## Installation and Launch
 ```
@@ -92,6 +25,8 @@ For Windows users with no Python installed and **Demo** preview, please find jam
 ```
 C:\jampy_windows_x86_64>jampy_windows_x86_64.exe
 ```
+How to use MS Access with Jam.py: https://www.youtube.com/watch?v=wR-50zZNG6s
+
 
 ## The LLMS-full.txt: 
 https://jampy-docs-v7.readthedocs.io/en/latest/llms-full.txt 
