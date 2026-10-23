@@ -671,7 +671,7 @@ class AbstractServerTask(AbstrTask):
             con = self.connect()
         cursor = con.cursor()
         try:
-            self.execute_query(cursor, select_query)
+            self.execute_query(cursor, select_query, params)
             result = cursor.fetchall()
             result = [list(r) for r in result]
         except Exception as x:
